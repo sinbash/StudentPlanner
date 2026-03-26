@@ -185,16 +185,17 @@
         }
 
         </style>
-    </head>
-
-    <body>
+     <head>
+    
+     <body>
         <nav class="sidebar"> 
             <h2>Student Planner</h2>
-            <a href="Units.html">📚My Units</a> <!-- I combined 'My Units' with 'Assignments'-->
-            <a href="PersonalToDoList.html">✅Personal To-Do List</a> <!-- I combined 'Reminders' with 'To-Do List and Renamed it 'Personal To-Do List'-->
+            <a href="index.html">🏠 Dashboard</a>
+            <a href="Units.html">📚My Units</a>
+            <a href="PersonalToDoList.html">✅Personal To-Do List</a>
             <a href="Grades.html">📊Grades</a>
             <a href="#">👥Invite a Friend</a>
-        </nav>
+         </nav>
 
 
         <div class="main-content">
@@ -205,41 +206,16 @@
                 <div id="date">Loading...</div>
             </header>
 
-        <main class="content">
-            <p class="dashboard-welcome">Welcome Back, <span id="display-name">User</span>!</p>
-            <hr class="section-divider">
-            <div class="card">
-            <h2 style="margin-top: 0;">Deadlines</h2>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Unit Code</th>
-                        <th>Assignments</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="unit-body">
-                    <tr>
-                        <td><input type="text" class="input-field" placeholder="Unit Code"></td>
-                        <td><input type="text" class="input-field" placeholder="Assignments"></td>
-                        <td>
-                            <select class="status-dropdown">
-                                <option value="not-started">Not started</option>
-                                <option value="in-progress">In Progress</option>
-                                <option value="completed">Completed</option>
-                            </select>
-                        </td>
-                        <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <button class="btn-add" onclick="addNewRow()">+ Add New Assignment</button>
+            <main class="content">
+                <div class="card">
+                    <h2>Grades</h2>
+                </div>
+            </main>
         </div>
+        
         </main>
     </div>
+
 
     <script>
         // 1. Clock and Date logic

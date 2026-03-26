@@ -8,15 +8,20 @@
                 margin: 0;
                 display: flex;
                 min-height: 100vh; /*Makes background fill the whole screen */
-                background-colour: #f4f4f4
+                background-color: #f4f4f4;
 
             }
+            .dashboard-welcome {font-size: 1.8rem; font-weight: 500; margin-top: 10px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e0e0e0; color: #444;}
+
+            .section-divider {border: none; border-top: 1px solid #e0e0e0; margin: 15px 0 20px 0;}
 
             /* Side Bar */
 
             .sidebar {
-                width: 220px;
-                background-color: #5c94e4;
+                width: 200px;
+                background: linear-gradient(180deg, #5c94e4, #3b6fd8);
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
                 color: white;
                 padding: 25px 15px;
                 display: flex;
@@ -38,11 +43,12 @@
                 text-decoration: none;
                 padding: 12px;
                 border-radius: 6px;
-                font-size: 2 rem;
+                font-size: 1rem;
                 transition: 0.2s;
+                border: 1px solid rgba(255,255,255,0.3)
             }
 
-            .sidebar a:hover { background-color: #1557b0;}
+            .sidebar a:hover { background-color: rgba(255,255,255,0.15);}
             
             .main-content {
                 flex: 1;
@@ -106,34 +112,44 @@
             }
 
             th {
-                background: grey;
-                padding: 15px;
+                background: #f1f3f6;
+                padding: 14px;
                 text-align: left;
-                color: black;
+                color: #444;
             }
 
             td {
-                padding: 12px;
+                padding: 14px;
                 border-bottom: 1px solid #eee;
             }
 
+            tr:hover { background: #f9fbff;}
+
             .input-field {
-                width: 40%;
-                padding: 8px;
-                border: 1px;
-                border-radius: 4px;
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                transition: 0.2s;
             }
+
+            .input-field:focus {border-color: #5c94e4; outline: none ; box-shadow: 0 0 0 2px rgba(92,148,228,0.2)}
 
             .btn-add {
             margin-top: 20px;
-            padding: 10px 20px;
-            background: #1a73e8;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #5c94e4, #3b6fd8);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.2s ;
             }
+
+            .btn-add:hover {transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.15);}
+
+            .card {background: white;border-radius: 12px;padding: 25px;margin-top: 15px;box-shadow: 0 4px 20px rgba(0,0,0,0.08);}
 
         .btn-delete {
             color: #d93025;
@@ -158,13 +174,13 @@
             color: red;
         }
 
-        .status-in-progess {
-            background-color: light rgb(243, 243, 130);
-            color: yellow;
+        .status-in-progress {
+            background-color: rgb(249, 249, 13);
+            color: rgb(204, 204, 25);
         }
 
         .status-completed {
-            background-color: light rgb(153, 255, 153);
+            background-color: rgb(100, 255, 100);
             color: green;
         }
 
@@ -173,14 +189,11 @@
 
     <body>
         <nav class="sidebar"> 
-            <h2>Student Plannar</h2>
-            <p class="welcome-msg">Welcome Back, <span id="display-name">User</span>!</p>
-            <a href="#">My Units</a>
-            <a href="#">Assignments</a>
-            <a href="#">Deadlines</a>
-            <a href="#">Reminders</a>
-            <a href="#">Grades</a>
-            <a href="#">Invite a Friend</a>
+            <h2>Student Planner</h2>
+            <a href="#">📚My Units</a> <!-- I combined 'My Units' with 'Assignments'-->
+            <a href="#">✅Personal To-Do List</a> <!-- I combined 'Reminders' with 'To-Do List and Renamed it 'Personal To-Do List'-->
+            <a href="#">📊Grades</a>
+            <a href="#">👥Invite a Friend</a>
         </nav>
 
 
@@ -193,6 +206,9 @@
             </header>
 
         <main class="content">
+            <p class="dashboard-welcome">Welcome Back, <span id="display-name">User</span>!</p>
+            <hr class="section-divider">
+            <div class="card">
             <h2 style="margin-top: 0;">Deadlines</h2>
             
             <table>
@@ -221,6 +237,7 @@
             </table>
 
             <button class="btn-add" onclick="addNewRow()">+ Add New Assignment</button>
+        </div>
         </main>
     </div>
 
@@ -241,7 +258,7 @@
             const status = selectElement.value;
             if (status == "not-started") {
                 selectElement.classList.add('status-not-started');
-            } else if (status == "in-progess") {
+            } else if (status == "in-progress") {
                 selectElement.classList.add('status-in-progress');
             } else if (status == "completed") {
                 selectElement.classList.add('status-completed')
@@ -271,6 +288,11 @@
         function removeRow(button) {
             button.closest('tr').remove();
         }
+
+        document.addEventListener("change", function(e) {
+            if (e.target.classList.contains("status-dropdown")) {
+                updateStatusColour(e.target);}
+});
     </script>
 </body>
 </html>

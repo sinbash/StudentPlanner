@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Plannar</title>
+        <style>
+            body{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                display: flex;
+                min-height: 100vh; /*Makes background fill the whole screen */
+                background-colour: #f4f4f4
+
+            }
+
+            /* Side Bar */
+
+            .sidebar {
+                width: 220px;
+                background-color: #5c94e4;
+                color: white;
+                padding: 25px 15px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px
+            }
+
+            .sidebar h2 {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #646464;
+                padding-bottom: 10px;
+                height: 20px;
+
+            }
+
+            .sidebar a {
+                color: white;
+                text-decoration: none;
+                padding: 12px;
+                border-radius: 6px;
+                font-size: 2 rem;
+                transition: 0.2s;
+            }
+
+            .sidebar a:hover { background-color: #1557b0;}
+            
+            .main-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .top-header {
+                background: white;
+                padding: 15px 30px;
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                height: 40px;
+            }
+
+            .logo-area {
+                display: flex;
+                flex-direction: column;
+
+            }
+
+            .logo-title {
+                font-size: 2rem;
+                font-weight: bold;
+                color: white;
+            }
+
+            .welcome-msg {
+                font-size: 1rem;
+                color: white;
+                margin-top: 2px;
+            }
+
+            .header {
+                background: white;
+                padding: 25px 15px;
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .time-display {
+                text-align: right;
+                color: black;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 40px;
+            }
+
+            table {
+                border-collapse: collapse;
+                border-radius: 5px;
+                overflow: hidden;
+                width: 50%;
+            }
+
+            th {
+                background: grey;
+                padding: 15px;
+                text-align: left;
+                color: black;
+            }
+
+            td {
+                padding: 12px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .input-field {
+                width: 40%;
+                padding: 8px;
+                border: 1px;
+                border-radius: 4px;
+            }
+
+            .btn-add {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            }
+
+        .btn-delete {
+            color: #d93025;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            }
+
+        .status-dropdown {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        } 
+
+        .status-not-started {
+            background-color:   rgb(246, 190, 190);
+            color: red;
+        }
+
+        .status-in-progess {
+            background-color: light rgb(243, 243, 130);
+            color: yellow;
+        }
+
+        .status-completed {
+            background-color: light rgb(153, 255, 153);
+            color: green;
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <nav class="sidebar"> 
+            <h2>Student Plannar</h2>
+            <p class="welcome-msg">Welcome Back, <span id="display-name">User</span>!</p>
+            <a href="#">My Units</a>
+            <a href="#">Assignments</a>
+            <a href="#">Deadlines</a>
+            <a href="#">Reminders</a>
+            <a href="#">Grades</a>
+            <a href="#">Invite a Friend</a>
+        </nav>
+
+
+        <div class="main-content">
+            <header class="top-header">
+                <div class="spacer"></div>
+                <div class="time-display">
+                    <div id="clock" style="font-weight: bold;">00:00:00</div>
+                <div id="date">Loading...</div>
+            </header>
+
+        <main class="content">
+            <h2 style="margin-top: 0;">Deadlines</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit Code</th>
+                        <th>Assignments</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="unit-body">
+                    <tr>
+                        <td><input type="text" class="input-field" placeholder="Unit Code"></td>
+                        <td><input type="text" class="input-field" placeholder="Assignments"></td>
+                        <td>
+                            <select class="status-dropdown">
+                                <option value="not-started">Not started</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </td>
+                        <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn-add" onclick="addNewRow()">+ Add New Assignment</button>
+        </main>
+    </div>
+
+    <script>
+        // 1. Clock and Date logic
+        function startClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+            document.getElementById('date').innerText = now.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+        }
+        setInterval(startClock, 1000);
+        startClock();
+
+        // 2. Add Status Colour
+        function updateStatusColour(selectElement) {
+            selectElement.classList.remove('status-not-started', 'status-in-progress', 'status-completed');
+
+            const status = selectElement.value;
+            if (status == "not-started") {
+                selectElement.classList.add('status-not-started');
+            } else if (status == "in-progess") {
+                selectElement.classList.add('status-in-progress');
+            } else if (status == "completed") {
+                selectElement.classList.add('status-completed')
+            }
+        }
+
+        // 3. Add Row 
+        function addNewRow() {
+            const tableBody = document.getElementById('unit-body');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" class="input-field" placeholder="Unit Code"></td>
+                <td><input type="text" class="input-field" placeholder="Assignments"></td>
+                <td>
+                    <select class="status-dropdown status-not-started" onchange="updateStatusColour(this)">
+                        <option value="not-started" selected>Not Started</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </td>
+                <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
+            `;
+            tableBody.appendChild(row);
+        }
+
+        // 4. Delete Row 
+        function removeRow(button) {
+            button.closest('tr').remove();
+        }
+    </script>
+</body>
+</html>

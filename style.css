@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    border: none;
+}
+
+.brand-title {
+    font-weight: 700;
+    /* color: #0d6efd; */
+    color: #fc64ff;
+}
+
+.form-control {
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.btn-primary {
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
+}
+/* These are style for the link */
+a {
+    text-decoration: none;
+    color: #fc64ff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:link {
+  color: rgb(0, 72, 255);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: pink;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}

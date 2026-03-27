@@ -8,9 +8,12 @@
                 margin: 0;
                 display: flex;
                 min-height: 100vh; /*Makes background fill the whole screen */
-                background-colour: #f4f4f4
+                background-color: #f4f4f4;
 
             }
+            .dashboard-welcome {font-size: 1.8rem; font-weight: 500; margin-top: 10px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e0e0e0; color: #444;}
+
+            .section-divider {border: none; border-top: 1px solid #e0e0e0; margin: 15px 0 20px 0;}
 
             /* Side Bar */
 
@@ -102,7 +105,7 @@
                 border-collapse: collapse;
                 border-radius: 5px;
                 overflow: hidden;
-                width: 50%;
+                width: 100%;
             }
 
             th {
@@ -118,7 +121,7 @@
             }
 
             .input-field {
-                width: 40%;
+                width: 60%;
                 padding: 8px;
                 border: 1px;
                 border-radius: 4px;
@@ -154,26 +157,61 @@
         } 
 
         .status-not-started {
-            background-color:   rgb(246, 190, 190);
-            color: red;
+            background-color: #ffdce0; 
+            color: #d93025;
         }
 
-        .status-in-progess {
-            background-color: light rgb(243, 243, 130);
-            color: yellow;
+        .status-in-progress {
+            background-color: #fff4cc; 
+            color: #b05e00;
         }
 
         .status-completed {
-            background-color: light rgb(153, 255, 153);
-            color: green;
+            background-color: #e6f4ea; 
+            color: #1e8e3e;
         }
+
+        .semester-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .semester-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 50px;
+            height: 12px;
+            overflow: hidden; /* Ensures the fill stays inside the rounded corners */
+        }
+
+        .progress-bar-fill {
+            width: 42%; /* Update this value as the semester goes on! */
+            height: 100%;
+            background: linear-gradient(90deg, #4A90E2 0%, #357ABD 100%);
+            border-radius: 50px;
+            transition: width 0.5s ease-in-out; /* Makes the bar "grow" smoothly when the page loads */
+        }
+
+        .week-text { font-size: 0.95rem; }
+        .percent-text { font-size: 0.9rem; color: #666; font-weight: 600; }
 
         </style>
     </head>
 
     <body>
         <nav class="sidebar"> 
-            <h2>Student Plannar</h2>
+            <h2>Student Planner</h2>
             <p class="welcome-msg">Welcome Back, <span id="display-name">User</span>!</p>
             <a href="#">My Units</a>
             <a href="#">Assignments</a>
@@ -192,6 +230,22 @@
                 <div id="date">Loading...</div>
             </header>
 
+        <div class="setup-container" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+            <label>Start: <input type="date" id="start-input"></label>
+            <label>End: <input type="date" id="end-input"></label>
+            <button onclick="saveDates()" style="background: #4A90E2; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Update Semester</button>
+        </div>
+
+        <div class="semester-container">
+            <div class="semester-header">
+                <span class="week-text">Semester Progress: <strong id="current-week">Set your dates above</strong></span>
+                <span class="percent-text" id="percent-complete">0% Complete</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+
         <main class="content">
             <h2 style="margin-top: 0;">Deadlines</h2>
             
@@ -199,7 +253,9 @@
                 <thead>
                     <tr>
                         <th>Unit Code</th>
+                        <th>Due Date</th>
                         <th>Assignments</th>
+                        <th>Count Down</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
@@ -207,9 +263,11 @@
                 <tbody id="unit-body">
                     <tr>
                         <td><input type="text" class="input-field" placeholder="Unit Code"></td>
+                        <td><input type="date" class="input-field" onchange="calculateCountdown(this)"></td>
                         <td><input type="text" class="input-field" placeholder="Assignments"></td>
+                        <td style="text-align: center; font-size: 1.1rem;">-</td>
                         <td>
-                            <select class="status-dropdown">
+                            <select class="status-dropdown status-not-started" onchange="updateStatusColour(this)">
                                 <option value="not-started">Not started</option>
                                 <option value="in-progress">In Progress</option>
                                 <option value="completed">Completed</option>
@@ -241,7 +299,7 @@
             const status = selectElement.value;
             if (status == "not-started") {
                 selectElement.classList.add('status-not-started');
-            } else if (status == "in-progess") {
+            } else if (status == "in-progress") {
                 selectElement.classList.add('status-in-progress');
             } else if (status == "completed") {
                 selectElement.classList.add('status-completed')
@@ -254,7 +312,9 @@
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td><input type="text" class="input-field" placeholder="Unit Code"></td>
+                <td><input type="date" class="input-field" onchange="calculateCountdown(this)"></td>
                 <td><input type="text" class="input-field" placeholder="Assignments"></td>
+                <td style="text-align: center; font-size: 1.1rem;">-</td>
                 <td>
                     <select class="status-dropdown status-not-started" onchange="updateStatusColour(this)">
                         <option value="not-started" selected>Not Started</option>
@@ -271,6 +331,94 @@
         function removeRow(button) {
             button.closest('tr').remove();
         }
+
+        
+        // 5. Load dates from storage when the page opens
+        window.onload = function() {
+            const savedStart = localStorage.getItem('semStart');
+            const savedEnd = localStorage.getItem('semEnd');
+            
+            if (savedStart && savedEnd) {
+                document.getElementById('start-input').value = savedStart;
+                document.getElementById('end-input').value = savedEnd;
+                calculateProgress(savedStart, savedEnd);
+            }
+        };
+        
+        // 6. Save the Dates for Semester Progress
+        function saveDates() {
+            const start = document.getElementById('start-input').value;
+            const end = document.getElementById('end-input').value;
+
+            if (start && end) {
+                localStorage.setItem('semStart', start);
+                localStorage.setItem('semEnd', end);
+                calculateProgress(start, end);
+            } else {
+                alert("Please select both start and end dates!");
+            }
+        }
+
+    
+        // 7. Semester Progress
+        function calculateProgress(startStr, endStr) {
+            const startDate = new Date(startStr);
+            const endDate = new Date(endStr);
+            const today = new Date();
+
+            const totalDuration = endDate - startDate;
+            const elapsed = today - startDate;
+
+            // Percentage Logic
+            let percentage = Math.floor((elapsed / totalDuration) * 100);
+            percentage = Math.min(Math.max(percentage, 0), 100);
+
+            // Week Logic
+            const diffInDays = Math.floor(elapsed / (1000 * 60 * 60 * 24));
+            const currentWeek = Math.ceil((diffInDays + 1) / 7);
+            const totalWeeks = Math.ceil(totalDuration / (1000 * 60 * 60 * 24 * 7));
+
+            // Update UI
+            document.getElementById('progress-fill').style.width = percentage + "%";
+            document.getElementById('percent-complete').innerText = percentage + "% Complete";
+            
+            if (percentage >= 100) {
+                document.getElementById('current-week').innerText = "Semester Finished!";
+            } else if (percentage <= 0) {
+                document.getElementById('current-week').innerText = "Not started yet";
+            } else {
+                document.getElementById('current-week').innerText = `Week ${currentWeek} of ${totalWeeks}`;
+            }
+        }
+
+        // 8. Count down (in days)
+
+        function calculateCountdown(dateInput) {
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+            
+            // Normalize both dates to midnight to ensure accurate day-by-day subtraction
+            today.setHours(0, 0, 0, 0);
+            selectedDate.setHours(0, 0, 0, 0);
+
+            // Calculate the difference in milliseconds and convert to days
+            const diffTime = selectedDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Find the cell in the "Count Down" column for this specific row
+            const row = dateInput.closest('tr');
+            const countdownCell = row.cells[3]; // The 4th column (index 3)
+
+            if (isNaN(diffDays)) {
+                countdownCell.innerText = "-";
+            } else {
+                countdownCell.innerText = diffDays;
+                
+            }
+        }
+
+        
+
     </script>
 </body>
 </html>

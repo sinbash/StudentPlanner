@@ -9,6 +9,7 @@ body {
     width: 100%;
     max-width: 420px;
     border: none;
+    
 }
 
 .brand-title {
@@ -22,19 +23,24 @@ body {
     padding: 12px;
 }
 
+/* .form-control:focus {
+    box-shadow: none;
+    outline: none;
+    border-color: #ced4da; /* default grey 
+} */
+
 .btn-primary {
     border-radius: 12px;
     padding: 12px;
     font-weight: 600;
 }
+.custom-bg {
+    background-color: #f5f5f5;
+}
 /* These are style for the link */
 a {
     text-decoration: none;
     color: #fc64ff;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 a:link {
@@ -53,6 +59,7 @@ a:hover {
   color: red;
   background-color: transparent;
   text-decoration: underline;
+  
 }
 
 a:active {

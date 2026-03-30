@@ -193,6 +193,7 @@
             <a href="Units.html">📚My Units</a> <!-- I combined 'My Units' with 'Assignments'-->
             <a href="PersonalToDoList.html">✅Personal To-Do List</a> <!-- I combined 'Reminders' with 'To-Do List and Renamed it 'Personal To-Do List'-->
             <a href="Grades.html">📊Grades</a>
+            <a href="Settings.html">⚙️ Settings</a>
             <a href="#">👥Invite a Friend</a>
         </nav>
 
@@ -225,7 +226,8 @@
                         <td><input type="text" class="input-field" placeholder="Unit Code"></td>
                         <td><input type="text" class="input-field" placeholder="Assignments"></td>
                         <td>
-                            <select class="status-dropdown">
+                            <select class="status-dropdown" onchange="updateStatusColour(this)">
+                                <option value="" disabled selected>Select Status</option>
                                 <option value="not-started">Not started</option>
                                 <option value="in-progress">In Progress</option>
                                 <option value="completed">Completed</option>

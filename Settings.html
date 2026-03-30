@@ -185,7 +185,6 @@
         }
 
         </style>
-     <head>
     
      <body>
         <nav class="sidebar"> 
@@ -207,11 +206,44 @@
                 <div id="date">Loading...</div>
             </header>
 
-            <main class="content">
-                <div class="card">
-                    <h2>Grades</h2>
+            <div class="card">
+                <h2>Settings</h2>
+
+    <!-- Dark Mode -->
+                <div class="settings-section">
+                    <h3>Dark Mode</h3>
+                    <label class="toggle">
+                        <input type="checkbox">
+                        <span>Enable Dark Mode</span>
+                    </label>
                 </div>
-            </main>
+
+    <!-- User Info -->
+                <div class="settings-section">
+                    <h3>User Information</h3>
+
+                    <input type="text" placeholder="Name" class="input-field">
+                    <input type="email" placeholder="Email" class="input-field">
+                    <input type="number" placeholder="Age" class="input-field">
+                </div>
+
+    <!-- Change Password -->
+                <div class="settings-section">
+                    <h3>Change Password</h3>
+
+                    <input type="password" placeholder="Current Password" class="input-field">
+                    <input type="password" placeholder="New Password" class="input-field">
+                    <input type="password" placeholder="Confirm Password" class="input-field">
+                </div>
+
+    <!-- Timezone -->
+                <div class="settings-section">
+                    <h3>Timezone</h3>
+
+                    <select id="timezone" class="input-field"></select>
+                </div>
+
+            </div>
         </div>
         
         </main>
@@ -227,6 +259,19 @@
         }
         setInterval(startClock, 1000);
         startClock();
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const timezoneSelect = document.getElementById("timezone");
+
+            const timezones = Intl.supportedValuesOf("timeZone");
+
+            timezones.forEach(tz => {
+                const option = document.createElement("option");
+                option.value = tz;
+                option.textContent = tz;
+                timezoneSelect.appendChild(option);
+            });
+        });
 
         // 2. Add Status Colour
         function updateStatusColour(selectElement) {
@@ -268,8 +313,13 @@
 
         document.addEventListener("change", function(e) {
             if (e.target.classList.contains("status-dropdown")) {
-                updateStatusColour(e.target);}
-});
+                updateStatusColour(e.target);}}
+        );
     </script>
 </body>
 </html>
+
+
+
+
+

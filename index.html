@@ -314,7 +314,7 @@
             <a href="#" onclick="showSection('dashboard', this)"> <span class="material-symbols-outlined">dashboard</span> Dashboard</a>
             <a href="#" onclick="showSection('units', this)"> <span class="material-symbols-outlined">menu_book</span> My Units </a>
             <a href="#" onclick="showSection('todo', this)"> <span class="material-symbols-outlined">assignment</span> Personal To-Do List</a>
-            <a href="#" onclick="showSection('grades', this)"> <span class="material-symbols-outlined">grade</span> Grades</a>
+            <a href="Grades_update.html" onclick="showSection('grades', this)"> <span class="material-symbols-outlined">grade</span> Grades</a>
             <a href="#" onclick="showSection('settings', this)"> <span class="material-symbols-outlined">settings</span> Settings</a>
             <a href="#" onclick="showSection('invite', this)"> <span class="material-symbols-outlined">group</span> Invite a Friend</a>
         </nav>
@@ -553,7 +553,13 @@
         
         // 5. Load dates from storage when the page opens
         window.onload = function() {
-            showSection('dashboard');
+            const hash = window.location.hash.replace("#", "");
+
+            if (hash) {
+                showSection(hash);
+            } else {
+                showSection("dashboard");
+            }
             loadTableData();
             loadUnits();
             const toggle = document.getElementById("theme-toggle");

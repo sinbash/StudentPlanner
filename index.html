@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Planner</title>
+
+        <!-- CSS styling -->
+        <style>
+
+            /* Theme colour */
+
+            /* Every colour of this wesbite has its own variable */
+            :root {
+            --background-color: #f4f7fe;
+            --card-bg: #ffffff;
+            --sidebar: #005fe3;
+            --sidebar-gradient: #1e428b;
+            --text-color: #2d3748;
+
+            /* Status Colors */
+            --red-button: #e53e3e;
+            --yellow-button: #d69e2e;
+            --green-button: #38a169;
+            --red-background: #fff5f5;
+            --yellow-background: #fffff0;
+            --green-background: #f0fff4;
+            }
+        
+
+            /* DARKMODE */
+            .darkmode{
+            --background-color: #0f172a;    /* Deep Slate */
+            --card-bg: #1e293b;             /* Lighter Slate for cards */
+            --sidebar: #1e40af;
+            --sidebar-gradient: #1e3a8a;
+            --text-color: #f1f5f9;          /* Off-white */
+
+            /* Vibrant Status for Dark Mode */
+            --red-button: #ff8080;
+            --yellow-button: #f6e05e;
+            --green-button: #68d391;
+            --red-background: rgba(255, 128, 128, 0.1);
+            --yellow-background: rgba(246, 224, 94, 0.1);
+            --green-background: rgba(104, 211, 145, 0.1);
+            }
+
+            #theme-switch{
+                order: 1;
+                height: 40px;
+                width: 40px;
+                padding: 0;
+                border-radius: 50%;
+                background-color: var(--background-color);
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                margin-left: 15px;
+         
+            }
+
+            #theme-switch svg{
+                position: absolute;
+                fill: var(--text-color);
+            }
+
+            /* Hide sun by default, show moon */
+            .moon-icon {opacity: 1; transform: scale(1);}
+            .sun-icon {opacity: 0; transform: scale(0.5);}
+            
+
+            /* In darkmode, swap them */
+            .darkmode .moon-icon { opacity: 0; transform: scale(0.5); }
+            .darkmode .sun-icon { opacity: 1; transform: scale(1); fill: #f6e05e; }
+
+
+            /* Body */
+
+            body{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                display: flex;
+                min-height: 100vh; /*Makes background fill the whole screen */
+                background-color: var(--background-color);
+
+            }
+
+            .section-divider {
+                border: none; 
+                border-top: 1px solid var(--base-color); 
+                margin: 15px 0 20px 0;}
+
+            /* Side Bar */
+
+            .sidebar {
+                width: 200px;
+                background: linear-gradient(180deg, var(--sidebar), var(--sidebar-gradient));
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+                color: white;
+                padding: 25px 15px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px
+            }
+
+            .sidebar h2 {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+                border-bottom: 1px solid var(--text-color);
+                padding-bottom: 10px;
+                height: 20px;
+
+            }
+
+            .sidebar a {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                color: rgba(255,255,255,0.9);
+                text-decoration: none;
+                padding: 12px;
+                border-radius: 6px;
+                font-size: 1rem;
+                transition: 0.2s;
+                border: 1px solid var(--background-color)(255,255,255,0.3)
+            }
+
+            .sidebar a:hover { background-color: rgba(255,255,255,0.1);}
+            
+            /* Page format */
+
+            .main-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .top-header {
+                background: var(--background-color);
+                padding: 15px 30px;
+                border-bottom: 1px solid var(--background-color);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 60px;
+            }
+
+
+            /* Time */
+
+            .time-display {
+                text-align: right;
+                color: var(--text-color);
+                font-size: 0.9rem;
+                margin: 0;
+                line-height: 1.2;
+            }
+
+            .header-controls {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            /* Table format */
+
+            .content {
+                padding: 10px;
+                margin-top: 10px;
+                font-size: 1.2rem;
+                color: var(--text-color);
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 0;
+            }
+
+            th {
+                background: var(--background-color);
+                padding: 16px;
+                text-align: left;
+                color: var(--text-color);
+                border-bottom: 2px solid rgba(0,0,0,0.05);
+            }
+
+            td {
+                padding: 14px;
+                border-bottom: 1px solid var(--background-color);
+                background-color: transparent;
+            }
+
+            .input-field {
+                width: 100%;
+                padding: 10px;
+                background: var(--card-bg);
+                color: var(--text-color);
+                border: 1px solid var(--text-color);
+                border-radius: 6px;
+                transition: 0.2s;
+                font-size: 0.9rem;
+                font-weight: 300;
+            }
+
+            .input-field:focus {
+                text-color: var(--sidebar); 
+                outline: none ; 
+                box-shadow: 0 0 0 2px var(--text-color)(92,148,228,0.2);
+            }
+
+
+            .btn-add {
+                margin-top: 20px;
+                padding: 12px 20px;
+                background: linear-gradient(135deg, var(--sidebar), var(--sidebar-gradient));
+                color: var(--background-color);
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: 0.2s ;
+            }
+
+            .btn-add:hover {
+                transform: translateY(-2px); 
+                box-shadow: 0 5px 15px var(--text-color)(0,0,0,0.15);
+            }
+
+            .card {
+                background: var(--card-bg);
+                border-radius: 12px;
+                padding: 20px;
+                margin-top: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+
+            .btn-delete {
+                color: var(--red-button);
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                }
+
+            .status-dropdown {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid var(--background-color);
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            } 
+
+            .status-not-started {
+                background-color:   var(--red-background);
+                color: var(--red-button);
+            }
+
+            .status-in-progress {
+                background-color: var(--yellow-background);
+                color: var(--yellow-button);
+            }
+
+            .status-completed {
+                background-color: var(--green-background);
+                color: var(--green-button);
+            }
+
+            /* Semester progress format */
+
+            .semester-container {
+                background: var(--background-color);
+                padding: 20px;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px var(--text-color)(0,0,0,0.05);
+                margin-bottom: 25px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .semester-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                color: var(--text-color);
+            }
+
+            .progress-bar-bg {
+                width: 100%;
+                background-color: var(--card-bg);
+                border-radius: 50px;
+                height: 12px;
+                overflow: hidden; /* Ensures the fill stays inside the rounded corners */
+            }
+
+            .progress-bar-fill {
+                width: 42%; /* Update this value as the semester goes on! */
+                height: 100%;
+                background: linear-gradient(90deg, var(--sidebar-gradient) 0%, var(--sidebar) 100%);
+                border-radius: 50px;
+                transition: width 0.5s ease-in-out; /* Makes the bar "grow" smoothly when the page loads */
+            }
+
+            .week-text { font-size: 0.95rem; }
+            .percent-text { font-size: 0.9rem; color: var(--text-color); font-weight: 600; }
+
+            /* Notes section format */
+
+            .notes-container {
+                margin-top: 20px;
+                padding: 20px;
+                background: var(--text-color)(255, 255, 255, 0.6); 
+                border-radius: 15px;
+                border: 1px solid var(--text-color)(255, 255, 255, 0.4);
+                box-shadow: 0 8px 32px var(--text-color)(0, 0, 0, 0.05);
+            }
+
+            #dashboard-notes {
+                width: 100%;
+                height: 150px;
+                background: transparent;
+                border: none;
+                outline: none;
+                font-family: 'Inter', sans-serif;
+                font-size: 1rem;
+                color: var(--text-color);
+                resize: none; /* Keeps the box size fixed for aesthetics */
+            }
+
+            .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            }
+
+            .notes-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 600;
+            }
+
+            #save-indicator {
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.3s ease;
+            }
+
+        </style>
+    
+
+    </head>
+
+    <!-- Text Seen on HTML -->
+
+    <body>
+        <nav class="sidebar"> 
+            <h2>Student Planner</h2>
+
+            <a href="Units.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M300-80q-58 0-99-41t-41-99v-520q0-58 41-99t99-41h500v600q-25 0-42.5 17.5T740-220q0 25 17.5 42.5T800-160v80H300Zm-60-267q14-7 29-10t31-3h20v-440h-20q-25 0-42.5 17.5T240-740v393Zm160-13h320v-440H400v440Zm-160 13v-453 453Zm60 187h373q-6-14-9.5-28.5T660-220q0-16 3-31t10-29H300q-26 0-43 17.5T240-220q0 26 17 43t43 17Z"/></svg> 
+                My Units
+            </a> 
+            <a href="PersonalToDoList.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>
+                Personal To-Do List
+            </a> 
+            <a href="Grades.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+                Grades
+            </a>
+            <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-593-87q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z"/></svg>
+                Invite a Friend
+            </a>
+        </nav>
+    
+
+        <div class="main-content">
+            <header class="top-header">
+                <div class="content">
+                    <p class="dashboard-welcome-header" style="margin: 0;">Welcome Back, <span id="display-name">User</span>!</p>
+                </div>
+
+                <div class="header-controls">
+                    <div class="time-display">
+                        <div id="clock" style="font-weight: bold;">00:00:00</div>
+                        <div id="date">Loading...</div>
+                    </div>
+
+                    <button id="theme-switch">
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M338.5-338.5Q280-397 280-480t58.5-141.5Q397-680 480-680t141.5 58.5Q680-563 680-480t-58.5 141.5Q563-280 480-280t-141.5-58.5ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/></svg>
+                    </button>
+                </div></header>
+        
+        <div class="setup-container" style="margin-bottom: 0px; padding: 15px; background: var(--background-color); border-radius: 10px;">
+            <label style="color: var(--text-color)"> 
+                Start: <input type="date" id="start-input" style="background-color: var(--card-bg); color: var(--text-color)";>
+            </label>
+            <label style="color: var(--text-color)">
+                End: <input type="date" id="end-input" style="background-color: var(--card-bg); color: var(--text-color)";>
+            </label>
+            <button onclick="saveDates()" style="background: #4A90E2; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Update Semester</button>
+        </div>
+
+        <div class="top-stats-row" style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; padding: 0 10px;">
+    
+            <div class="semester-container" style="flex: 2; margin-bottom: 0;">
+                <div class="semester-header">
+                    <span class="week-text">Semester Progress: <strong id="current-week">Set your dates above</strong></span>
+                    <span class="percent-text" id="percent-complete">0% Complete</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <main class="content">
+            <div class="card">
+            <h2 style="margin-top: 0;">Deadlines</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Unit Code</th>
+                        <th style="width: 15%;">Due Date</th>
+                        <th style="width: 40%;">Assignments</th>
+                        <th style="width: 15%; text-align: center;">Count Down</th>
+                        <th style="width: 20%;">Status</th>
+                        <th style="width: 5%;"></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="unit-body">
+                    <tr>
+                        <td><input type="text" class="input-field" placeholder="Unit Code"></td>
+                        <td><input type="date" class="input-field" onchange="calculateCountdown(this)"></td>
+                        <td><input type="text" class="input-field" placeholder="Assignments"></td>
+                        <td style="text-align: center; font-size: 1.1rem;">-</td>
+                        <td>
+                            <select class="status-dropdown status-not-started" onchange="updateStatusColour(this)">
+                                <option value="not-started">Not started</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </td>
+                        <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn-add" onclick="addNewRow()">+ Add New Assignment</button>
+        
+        <!--  Notes Pad -->
+        <div class="notes-container">
+            <div class="notes-header">
+                <h3>Quick Scratchpad</h3>
+                <span id="save-indicator" style="font-size: 0.7rem; opacity: 0.5;">Saved</span>
+            </div>
+            <textarea id="dashboard-notes" placeholder="..."></textarea>
+        </div>
+    
+        </main>   
+    </div>
+
+    <!-- JAVA script -->
+
+    <script>
+
+       // 1. Clock and Date
+    function startClock() {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString();
+        document.getElementById('date').innerText = now.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+    }
+    setInterval(startClock, 1000);
+    startClock();
+
+    // 2. Add Status Colour & Save
+    function updateStatusColour(selectElement) {
+        selectElement.classList.remove('status-not-started', 'status-in-progress', 'status-completed');
+        const status = selectElement.value;
+        if (status) selectElement.classList.add('status-' + status);
+        saveTableData(); // Save when status changes
+    }
+
+    // 3. Add Row (Updated to STORE data)
+    function addNewRow(data = { unit: '', date: '', assignment: '', status: 'not-started' }) {
+        const tableBody = document.getElementById('unit-body');
+        const row = document.createElement('tr');
+        
+        // Calculate countdown for loaded rows
+        let countdown = "-";
+        if(data.date) {
+            const diff = new Date(data.date) - new Date().setHours(0,0,0,0);
+            countdown = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+
+        row.innerHTML = `
+            <td><input type="text" class="input-field" placeholder="Unit Code" value="${data.unit}" oninput="saveTableData()"></td>
+            <td><input type="date" class="input-field" value="${data.date}" onchange="calculateCountdown(this); saveTableData()"></td>
+            <td><input type="text" class="input-field" placeholder="Assignments" value="${data.assignment}" oninput="saveTableData()"></td>
+            <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
+            <td>
+                <select class="status-dropdown status-${data.status}" onchange="updateStatusColour(this)">
+                    <option value="not-started" ${data.status === 'not-started' ? 'selected' : ''}>Not started</option>
+                    <option value="in-progress" ${data.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                    <option value="completed" ${data.status === 'completed' ? 'selected' : ''}>Completed</option>
+                </select>
+            </td>
+            <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
+        `;
+        tableBody.appendChild(row);
+        saveTableData();
+    }
+
+    // 4. Delete Row & Save
+    function removeRow(button) {
+        button.closest('tr').remove();
+        saveTableData();
+    }
+
+    // 5. Semester Progress Logic and saving that data
+    function saveDates() {
+        const start = document.getElementById('start-input').value;
+        const end = document.getElementById('end-input').value;
+        if (start && end) {
+            localStorage.setItem('semStart', start);
+            localStorage.setItem('semEnd', end);
+            calculateProgress(start, end);
+        } else {
+            alert("Please select both start and end dates!");
+        }
+    }
+
+    function calculateProgress(startStr, endStr) {
+        const startDate = new Date(startStr);
+        const endDate = new Date(endStr);
+        const today = new Date();
+        const totalDuration = endDate - startDate;
+        const elapsed = today - startDate;
+        let percentage = Math.floor((elapsed / totalDuration) * 100);
+        percentage = Math.min(Math.max(percentage, 0), 100);
+        const diffInDays = Math.floor(elapsed / (1000 * 60 * 60 * 24));
+        const currentWeek = Math.ceil((diffInDays + 1) / 7);
+        const totalWeeks = Math.ceil(totalDuration / (1000 * 60 * 60 * 24 * 7));
+
+        document.getElementById('progress-fill').style.width = percentage + "%";
+        document.getElementById('percent-complete').innerText = percentage + "% Complete";
+        document.getElementById('current-week').innerText = percentage >= 100 ? "Finished!" : `Week ${currentWeek} of ${totalWeeks}`;
+    }
+
+    // 6. Countdown Logic
+    function calculateCountdown(dateInput) {
+        const selectedDate = new Date(dateInput.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        selectedDate.setHours(0, 0, 0, 0);
+        const diffDays = Math.ceil((selectedDate - today) / (1000 * 60 * 60 * 24));
+        const row = dateInput.closest('tr');
+        row.cells[3].innerText = isNaN(diffDays) ? "-" : diffDays;
+    }
+
+    // 7. Saving data in the deadline table
+    function saveTableData() {
+        const rows = document.querySelectorAll('#unit-body tr');
+        const data = Array.from(rows).map(row => {
+            return {
+                unit: row.cells[0].querySelector('input').value,
+                date: row.cells[1].querySelector('input').value,
+                assignment: row.cells[2].querySelector('input').value,
+                status: row.cells[4].querySelector('select').value
+            };
+        });
+        localStorage.setItem('deadlineData', JSON.stringify(data));
+    }
+
+    // 8. Load Everything on Page Start
+    window.onload = function() {
+        // Load Dates
+        const savedStart = localStorage.getItem('semStart');
+        const savedEnd = localStorage.getItem('semEnd');
+        if (savedStart && savedEnd) {
+            document.getElementById('start-input').value = savedStart;
+            document.getElementById('end-input').value = savedEnd;
+            calculateProgress(savedStart, savedEnd);
+        }
+
+        // Load Notes
+        const savedNote = localStorage.getItem('userDashboardNote');
+        if (savedNote) {
+            document.getElementById('dashboard-notes').value = savedNote;
+        }
+
+        // Load Table Rows
+        const savedTable = JSON.parse(localStorage.getItem('deadlineData'));
+        if (savedTable && savedTable.length > 0) {
+
+            // 1. Clear the default HTML row
+            const tableBody = document.getElementById('unit-body');
+            tableBody.innerHTML = ""; 
+
+            // 2. Filtering out rows that have NO data in the 3 main fields
+            const activeRows = savedTable.filter(rowData => {
+                return rowData.unit.trim() !== "" || 
+                    rowData.date.trim() !== "" || 
+                    rowData.assignment.trim() !== "";
+            });
+
+            // 3. Only show the rows that actually have content
+            if (activeRows.length > 0) {
+                activeRows.forEach(rowData => addNewRow(rowData));
+            } else {
+                // 4. If everything was empty, add one fresh blank row so the table isn't invisible
+                addNewRow();
+            }
+            
+            // 5. Update the storage so the "deleted" empty rows stay gone
+            saveTableData();
+        }
+
+        };
+
+    // 9. Notes Auto-Save
+    const notesArea = document.getElementById('dashboard-notes');
+    const indicator = document.getElementById('save-indicator');
+    notesArea.addEventListener('input', () => {
+        localStorage.setItem('userDashboardNote', notesArea.value);
+        indicator.textContent = "Saving...";
+        setTimeout(() => { indicator.textContent = "Saved"; }, 500);
+    });
+
+    // 10. Theme switch (dark mode & light mode)
+    let darkmode = localStorage.getItem('darkmode')
+    const themeSwitch = document.getElementById('theme-switch')
+
+    const enableDarkmode = () => {
+        document.body.classList.add('darkmode')
+        localStorage.setItem('darkmode', 'active')
+    }
+
+    const disableDarkmode = () => {
+        document.body.classList.remove('darkmode')
+        localStorage.setItem('darkmode', null)
+    }
+
+    if(darkmode === "active") enableDarkmode()
+
+    themeSwitch.addEventListener("click", () => {
+        darkmode = localStorage.getItem('darkmode')
+        if (darkmode !== "active") {
+            enableDarkmode()
+         } 
+         else{
+            disableDarkmode()
+    }})
+        
+
+    </script>
+</body>
+</html>

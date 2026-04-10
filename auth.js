@@ -5,6 +5,10 @@ function validatePassword(password) {
     return password.length >= 6;
 }
 
+function validateUsername(usernmae){
+    return usernmae;
+}
+
 function calculateAge(dob) {
     const today = new Date();
     const birthDate = new Date(dob);
@@ -24,36 +28,59 @@ function calculateAge(dob) {
 }
 
 const loginForm = document.getElementById("loginForm");
-if (loginForm) {
-    loginForm.addEventListener("submit",function(e) {
-        e.preventDefault();
+const emailInput = document.getElementById("email");
+const passwordSection = document.getElementById("passwordSection");
+const errorMessage = document.getElementById("errorMessage");
 
-        const email = document.getElementById("email").value.trim().toLowerCase();
-        const  password= document.getElementById("password").value;
+// Show password field when email is valid (outside form submit)
+emailInput.addEventListener('blur', function() {
+    if (validateEmail(emailInput.value.trim())) {
+        passwordSection.classList.remove('d-none');
+    }
+});
+
+if (loginForm) {
+    loginForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        // Hide previous error
+        errorMessage.classList.add('d-none');
+
+        const email = emailInput.value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
 
         if (!email) {
-            alert("Email is required");
+            errorMessage.textContent = "Email is required";
+            errorMessage.classList.remove('d-none');
             return;
         }
 
         if (!validateEmail(email)) {
-            alert("Invalid email format");
+            errorMessage.textContent = "Invalid email format";
+            errorMessage.classList.remove('d-none');
             return;
         }
 
         if (!password) {
-            alert("Password is required");
+            errorMessage.textContent = "Password is required";
+            errorMessage.classList.remove('d-none');
             return;
         }
 
         if (!validatePassword(password)) {
-            alert("Password must be at least 6 characters");
+            errorMessage.textContent = "Password must be at least 6 characters";
+            errorMessage.classList.remove('d-none');
             return;
         }
-        console.log("LOGIN: ", {email,password});
+
+        // TODO: actual login check here
+        // If login fails:
+        errorMessage.textContent = "Wrong password";
+        errorMessage.classList.remove('d-none');
+
+        console.log("LOGIN: ", {email, password});
     });
 }
-
 
 const signupForm = document.getElementById("signupForm");
 

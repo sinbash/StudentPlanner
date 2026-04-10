@@ -14,13 +14,10 @@
 </head>
 
 <body>
-    <!-- Center the login card using Bootstrap flex utilities, earlier was using center tag -->
     <div class="container d-flex justify-content-center align-items-center min-vh-100 "> 
-        <!-- Card container with padding, shadow, rounded corners -->
         <div class="p-4 shadow rounded custom-bg" style="width: 350px;"> 
 
             <div class="text-center mb-3">
-            <!--<p>Hey students! <b>Planning</b> never gets easier</p> , need a good phrase-->  
                 <h4>Login</h4>
             </div>
 
@@ -31,10 +28,11 @@
                     <input type="email" id="email" name="email" class="form-control" placeholder="username or email" required>
                 </div>
                 <!-- Password input field -->
-                <div class="mb-3">
+                <div class="mb-3 d-none" id="passwordSection">
                     <label class="form-label">Password</label>
                     <input type="password" id="password"  name="password" class="form-control" placeholder="password" required>
                 </div>
+                <div id="errorMessage" class="text-danger text-center mb-3 d-none"></div>
                 <!-- Submit button   -->
                 <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-primary">Login</button>
@@ -45,11 +43,12 @@
                     <a href="signup.html" class="me-3">Sign Up</a>
                     <a href="reset.html" class="me-3" >Forgot password</a>
                 </div>
-
             </form>
-
         </div>
     </div>
+    <p class="text-center text-muted position-absolute bottom-0 w-100 mb-3">
+        By continuing, you acknowledge that you understand and agree to the Terms & Conditions and Privacy Policy
+    </p>
     <script src="auth.js"></script>
 </body>
 </html>

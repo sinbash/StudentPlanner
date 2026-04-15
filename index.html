@@ -30,7 +30,7 @@
             .darkmode{
             --background-color: #0f172a;    /* Deep Slate */
             --card-bg: #1e293b;             /* Lighter Slate for cards */
-            --sidebar: #1e40af;
+            --sidebar: #000d37;
             --sidebar-gradient: #1e3a8a;
             --text-color: #f1f5f9;          /* Off-white */
 
@@ -95,7 +95,6 @@
                 background: linear-gradient(180deg, var(--sidebar), var(--sidebar-gradient));
                 border-top-right-radius: 20px;
                 border-bottom-right-radius: 20px;
-                color: white;
                 padding: 25px 15px;
                 display: flex;
                 flex-direction: column;
@@ -206,7 +205,7 @@
             }
 
             .input-field:focus {
-                text-color: var(--sidebar); 
+                color: var(--sidebar); 
                 outline: none ; 
                 box-shadow: 0 0 0 2px var(--text-color)(92,148,228,0.2);
             }
@@ -215,8 +214,8 @@
             .btn-add {
                 margin-top: 20px;
                 padding: 12px 20px;
-                background: linear-gradient(135deg, var(--sidebar), var(--sidebar-gradient));
-                color: var(--background-color);
+                background: var(--sidebar-gradient);
+                color: white;
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
@@ -358,10 +357,11 @@
 
     <body>
         <nav class="sidebar"> 
-            <h2>Student Planner</h2>
+            <h2 style="color: white;">Student Planner</h2>
 
             <a onclick="showDashboard()">
-                Dashboard <!--I still need to add icon to this (Stacie)--> 
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+                Dashboard 
             </a>
 
             <a onclick="showUnits()">
@@ -381,7 +381,8 @@
                 Invite a Friend
             </a>
             <a onclick="showSettings()">
-                Settings <!--I still need to add icon to this as well (Stacie)--> 
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
+                Settings 
             </a>
         </nav>
     
@@ -412,7 +413,7 @@
                 <label style="color: var(--text-color)">
                     End: <input type="date" id="end-input" style="background-color: var(--card-bg); color: var(--text-color)";>
                 </label>
-                <button onclick="saveDates()" style="background: #4A90E2; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Update Semester</button>
+                <button onclick="saveDates()" style="background: var(--sidebar-gradient ); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Update Semester</button>
             </div>
 
             <div class="top-stats-row" style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; padding: 0 10px;">

@@ -28,19 +28,19 @@
 
             /* DARKMODE */
             .darkmode{
-            --background-color: #0f172a;    /* Deep Slate */
-            --card-bg: #1e293b;             /* Lighter Slate for cards */
-            --sidebar: #000d37;
-            --sidebar-gradient: #1e3a8a;
-            --text-color: #f1f5f9;          /* Off-white */
+                --background-color: #0f172a;    /* Deep Slate */
+                --card-bg: #1e293b;             /* Lighter Slate for cards */
+                --sidebar: #000d37;
+                --sidebar-gradient: #1e3a8a;
+                --text-color: #f1f5f9;          /* Off-white */
 
-            /* Vibrant Status for Dark Mode */
-            --red-button: #ff8080;
-            --yellow-button: #f6e05e;
-            --green-button: #68d391;
-            --red-background: rgba(255, 128, 128, 0.1);
-            --yellow-background: rgba(246, 224, 94, 0.1);
-            --green-background: rgba(104, 211, 145, 0.1);
+                /* Vibrant Status for Dark Mode */
+                --red-button: #ff8080;
+                --yellow-button: #f6e05e;
+                --green-button: #68d391;
+                --red-background: rgba(255, 128, 128, 0.1);
+                --yellow-background: rgba(246, 224, 94, 0.1);
+                --green-background: rgba(104, 211, 145, 0.1);
             }
 
             #theme-switch{
@@ -62,7 +62,7 @@
                 fill: var(--text-color);
             }
 
-            /* Hide sun by default, show moon */
+            /* Hide sun by default (on light mode), show moon */
             .moon-icon {opacity: 1; transform: scale(1);}
             .sun-icon {opacity: 0; transform: scale(0.5);}
             
@@ -71,9 +71,7 @@
             .darkmode .moon-icon { opacity: 0; transform: scale(0.5); }
             .darkmode .sun-icon { opacity: 1; transform: scale(1); fill: #f6e05e; }
 
-
             /* Body */
-
             body{
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 margin: 0;
@@ -86,10 +84,11 @@
             .section-divider {
                 border: none; 
                 border-top: 1px solid var(--base-color); 
-                margin: 15px 0 20px 0;}
+                margin: 15px 0 20px 0;
+            }
 
+            
             /* Side Bar */
-
             .sidebar {
                 width: 200px;
                 background: linear-gradient(180deg, var(--sidebar), var(--sidebar-gradient));
@@ -114,20 +113,18 @@
                 display: flex;
                 align-items: center;
                 gap: 12px;
-
                 color: rgba(255,255,255,0.9);
                 text-decoration: none;
                 padding: 12px;
                 border-radius: 6px;
                 font-size: 1rem;
                 transition: 0.2s;
-                border: 1px solid var(--background-color)(255,255,255,0.3)
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             }
 
             .sidebar a:hover { background-color: rgba(255,255,255,0.1);}
             
             /* Page format */
-
             .main-content {
                 flex: 1;
                 display: flex;
@@ -207,7 +204,7 @@
             .input-field:focus {
                 color: var(--sidebar); 
                 outline: none ; 
-                box-shadow: 0 0 0 2px var(--text-color)(92,148,228,0.2);
+                box-shadow: 0 0 0 2px var(--text-color);
             }
 
 
@@ -225,7 +222,7 @@
 
             .btn-add:hover {
                 transform: translateY(-2px); 
-                box-shadow: 0 5px 15px var(--text-color)(0,0,0,0.15);
+                box-shadow: 0 5px 15px var(--text-color);
             }
 
             .card {
@@ -275,7 +272,7 @@
                 background: var(--background-color);
                 padding: 20px;
                 border-radius: 12px;
-                box-shadow: 0 4px 6px var(--text-color)(0,0,0,0.05);
+                box-shadow: 0 4px 6px var(--text-color);
                 margin-bottom: 25px;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
@@ -311,10 +308,9 @@
             .notes-container {
                 margin-top: 20px;
                 padding: 20px;
-                background: var(--text-color)(255, 255, 255, 0.6); 
+                background: rgba(255, 255, 255, 0.6); 
                 border-radius: 15px;
-                border: 1px solid var(--text-color)(255, 255, 255, 0.4);
-                box-shadow: 0 8px 32px var(--text-color)(0, 0, 0, 0.05);
+                border: 1px solid;
             }
 
             #dashboard-notes {
@@ -372,17 +368,21 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>
                 Personal To-Do List
             </a> 
-            <a href="Grades.html">
+            <a href="Grades_update.html">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
                 Grades
             </a>
-            <a href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-593-87q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z"/></svg>
-                Invite a Friend
+            <a href="profile.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                Profile
             </a>
             <a onclick="showSettings()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
                 Settings 
+            </a>
+            <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-593-87q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z"/></svg>
+                Invite a Friend
             </a>
         </nav>
     
@@ -580,6 +580,84 @@
         <!-- JAVA script -->
 
         <script>
+            function hideAllSections() {
+                document.getElementById("dashboard-section").style.display = "none";
+                document.getElementById("units-section").style.display = "none";
+                document.getElementById("unit-detail-section").style.display = "none";
+                document.getElementById("todo-section").style.display = "none";
+                document.getElementById("settings-section").style.display = "none";
+            }
+
+            window.onload = function() {
+
+                //Load settings on new user session
+                loadTimezones();
+                const savedSettings = JSON.parse(localStorage.getItem("userSettings"));
+
+                if (savedSettings) {
+                    document.getElementById("user-name").value = savedSettings.name || "";
+                    document.getElementById("user-email").value = savedSettings.email || "";
+                    document.getElementById("user-age").value = savedSettings.age || "";
+                    document.getElementById("timezone").value = savedSettings.timezone || "";
+                }
+
+
+                //Load the Saved Personal To-Do List Data from user's last visit on website.
+                const savedTodos = JSON.parse(localStorage.getItem("todoData")) || [];
+                const list = document.getElementById("todo-list");
+                list.innerHTML = "";
+                savedTodos.forEach(todo => addTodo(todo.text, todo.completed, true));
+                
+                loadUnitsData();
+
+                // Load Dates
+                const savedStart = localStorage.getItem('semStart');
+                const savedEnd = localStorage.getItem('semEnd');
+                if (savedStart && savedEnd) {
+                    document.getElementById('start-input').value = savedStart;
+                    document.getElementById('end-input').value = savedEnd;
+                    calculateProgress(savedStart, savedEnd);
+                }
+
+                // Load Notes
+                const savedNote = localStorage.getItem('userDashboardNote');
+                if (savedNote) {
+                    document.getElementById('dashboard-notes').value = savedNote;
+                }
+
+                // Load Table Rows
+                const savedTable = JSON.parse(localStorage.getItem('deadlineData'));
+                if (savedTable && savedTable.length > 0) {
+                    // 1. Clear the default HTML row
+                    const tableBody = document.getElementById('unit-body');
+                    tableBody.innerHTML = ""; 
+
+                    // 2. Filtering out rows that have NO data in the 3 main fields
+                    const activeRows = savedTable.filter(rowData => {
+                        return rowData.unit.trim() !== "" || 
+                            rowData.date.trim() !== "" || 
+                            rowData.assignment.trim() !== "";
+                    });
+
+                    // 3. Only show the rows that actually have content
+                    if (activeRows.length > 0) {
+                        activeRows.forEach(rowData => addNewRow(rowData));
+                    } else {
+                        // 4. If everything was empty, add one fresh blank row so the table isn't invisible
+                        addNewRow();
+                    }
+            
+                    // 5. Update the storage so the "deleted" empty rows stay gone
+                    saveTableData();
+                }
+
+                const hash = window.location.hash;
+                if (hash === "#units") showUnits();
+                else if (hash === "#todo") showTodo();
+                else if (hash === "#settings") showSettings();
+                else showDashboard();
+
+            };
 
             // 1. Clock and Date
             function startClock() {
@@ -605,27 +683,27 @@
         
                 // Calculate countdown for loaded rows
                 let countdown = "-";
-            if(data.date) {
-                const diff = new Date(data.date) - new Date().setHours(0,0,0,0);
-                countdown = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            }
+                if(data.date) {
+                    const diff = new Date(data.date) - new Date().setHours(0,0,0,0);
+                    countdown = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                }
 
-            row.innerHTML = `
-                <td><input type="text" class="input-field" placeholder="Unit Code" value="${data.unit}" oninput="saveTableData()"></td>
-                <td><input type="date" class="input-field" value="${data.date}" onchange="calculateCountdown(this); saveTableData()"></td>
-                <td><input type="text" class="input-field" placeholder="Assignments" value="${data.assignment}" oninput="saveTableData()"></td>
-                <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
-                <td>
-                    <select class="status-dropdown status-${data.status}" onchange="updateStatusColour(this)">
-                        <option value="not-started" ${data.status === 'not-started' ? 'selected' : ''}>Not started</option>
-                        <option value="in-progress" ${data.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
-                        <option value="completed" ${data.status === 'completed' ? 'selected' : ''}>Completed</option>
-                    </select>
-                </td>
-                <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
-            `;
-            tableBody.appendChild(row);
-            saveTableData();
+                row.innerHTML = `
+                    <td><input type="text" class="input-field" placeholder="Unit Code" value="${data.unit}" oninput="saveTableData()"></td>
+                    <td><input type="date" class="input-field" value="${data.date}" onchange="calculateCountdown(this); saveTableData()"></td>
+                    <td><input type="text" class="input-field" placeholder="Assignments" value="${data.assignment}" oninput="saveTableData()"></td>
+                    <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
+                    <td>
+                        <select class="status-dropdown status-${data.status}" onchange="updateStatusColour(this)">
+                            <option value="not-started" ${data.status === 'not-started' ? 'selected' : ''}>Not started</option>
+                            <option value="in-progress" ${data.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="completed" ${data.status === 'completed' ? 'selected' : ''}>Completed</option>
+                        </select>
+                    </td>
+                    <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
+                `;
+                tableBody.appendChild(row);
+                saveTableData();
             }
 
             // 4. Delete Row & Save
@@ -689,51 +767,6 @@
                 localStorage.setItem('deadlineData', JSON.stringify(data));
             }
 
-            // 8. Load Everything on Page Start
-            window.onload = function() {
-                // Load Dates
-                const savedStart = localStorage.getItem('semStart');
-                const savedEnd = localStorage.getItem('semEnd');
-                if (savedStart && savedEnd) {
-                    document.getElementById('start-input').value = savedStart;
-                    document.getElementById('end-input').value = savedEnd;
-                    calculateProgress(savedStart, savedEnd);
-                }
-
-                // Load Notes
-                const savedNote = localStorage.getItem('userDashboardNote');
-                if (savedNote) {
-                    document.getElementById('dashboard-notes').value = savedNote;
-                }
-
-                // Load Table Rows
-                const savedTable = JSON.parse(localStorage.getItem('deadlineData'));
-                if (savedTable && savedTable.length > 0) {
-
-                    // 1. Clear the default HTML row
-                    const tableBody = document.getElementById('unit-body');
-                    tableBody.innerHTML = ""; 
-
-                    // 2. Filtering out rows that have NO data in the 3 main fields
-                    const activeRows = savedTable.filter(rowData => {
-                        return rowData.unit.trim() !== "" || 
-                            rowData.date.trim() !== "" || 
-                            rowData.assignment.trim() !== "";
-                    });
-
-                    // 3. Only show the rows that actually have content
-                    if (activeRows.length > 0) {
-                        activeRows.forEach(rowData => addNewRow(rowData));
-                    } else {
-                        // 4. If everything was empty, add one fresh blank row so the table isn't invisible
-                        addNewRow();
-                    }
-            
-                    // 5. Update the storage so the "deleted" empty rows stay gone
-                    saveTableData();
-                }
-
-                };
 
             // 9. Notes Auto-Save
             const notesArea = document.getElementById('dashboard-notes');
@@ -772,21 +805,23 @@
 
             //Functions for Units Section
             function showUnits() {
-            document.getElementById("dashboard-section").style.display = "none";
-            document.getElementById("units-section").style.display = "block";
-            document.getElementById("unit-detail-section").style.display = "none";
+                hideAllSections();
+                document.getElementById("dashboard-section").style.display = "none";
+                document.getElementById("units-section").style.display = "block";
+                document.getElementById("unit-detail-section").style.display = "none";
             }
 
             function showDashboard() {
-            document.getElementById("dashboard-section").style.display = "block";
-            document.getElementById("units-section").style.display = "none";
-            }
+                hideAllSections();
+                document.getElementById("dashboard-section").style.display = "block";
+                document.getElementById("units-section").style.display = "none";
+                }
 
             function addNewUnitRow(data = { unit: '', semester: '' }) {
-            const tableBody = document.getElementById('units-body');
-            const row = document.createElement('tr');
+                const tableBody = document.getElementById('units-body');
+                const row = document.createElement('tr');
 
-            row.innerHTML = `
+                row.innerHTML = `
                 <td onclick="openUnitPage(this.closest('tr'))" class="unit-click">
                     <input type="text" class="input-field" placeholder="Unit Code" value="${data.unit}" oninput="saveUnitsData()">
                 </td>
@@ -801,40 +836,42 @@
                 <td>
                     <button class="btn-delete" onclick="event.stopPropagation(); removeUnitRow(this)">&times;</button>
                 </td>
-            `;
+                `;
 
-            tableBody.appendChild(row);
-            saveUnitsData();
-            }
+                tableBody.appendChild(row);
+                saveUnitsData();
+                }
 
             function removeUnitRow(button) {
-            button.closest('tr').remove();
-            saveUnitsData();
+                button.closest('tr').remove();
+                saveUnitsData();
             }
 
             function saveUnitsData() {
-            const rows = document.querySelectorAll('#units-body tr');
+                const rows = document.querySelectorAll('#units-body tr');
 
-            const data = Array.from(rows).map(row => {
-                return {
-                    unit: row.cells[0].querySelector('input').value,
-                    semester: row.cells[1].querySelector('input').value
-                };
-            });
+                const data = Array.from(rows).map(row => {
+                    return {
+                        unit: row.cells[0].querySelector('input').value,
+                        semester: row.cells[1].querySelector('input').value
+                    };
+                });
 
-            localStorage.setItem('unitsData', JSON.stringify(data));
-            }
+                localStorage.setItem('unitsData', JSON.stringify(data));
+                }
 
             // Load Units Data
-            const savedUnits = JSON.parse(localStorage.getItem('unitsData'));
+            function loadUnitsData(){
+                const savedUnits = JSON.parse(localStorage.getItem('unitsData'));
 
-            if (savedUnits && savedUnits.length > 0) {
-                const tableBody = document.getElementById('units-body');
-                tableBody.innerHTML = "";
+                if (savedUnits && savedUnits.length > 0) {
+                    const tableBody = document.getElementById('units-body');
+                    tableBody.innerHTML = "";
 
-                savedUnits.forEach(unit => addNewUnitRow(unit));
-            } else {
-                addNewUnitRow(); // default row
+                    savedUnits.forEach(unit => addNewUnitRow(unit));
+                } else {
+                    addNewUnitRow(); // default row
+                }
             }
         
             function openUnitPage(row) {
@@ -931,6 +968,7 @@
             //Functions for Personal To-Do List Section
             //Logic Function for the To-Do List
             function showTodo() {
+                hideAllSections();
                 document.getElementById("dashboard-section").style.display = "none";
                 document.getElementById("units-section").style.display = "none";
                 document.getElementById("unit-detail-section").style.display = "none";
@@ -991,19 +1029,10 @@
                 localStorage.setItem("todoData", JSON.stringify(data));
             }
 
-            //Load the Saved Data from user's last visit on website.
-            window.onload = function() {
-                const savedTodos = JSON.parse(localStorage.getItem("todoData")) || [];
-
-                const list = document.getElementById("todo-list");
-                list.innerHTML = "";
-
-                savedTodos.forEach(todo => addTodo(todo.text, todo.completed, true));
-            };
-
             //Functions for Settings section
             //Logic function for settings
             function showSettings() {
+                hideAllSections();
                 document.getElementById("dashboard-section").style.display = "none";
                 document.getElementById("units-section").style.display = "none";
                 document.getElementById("unit-detail-section").style.display = "none";
@@ -1037,18 +1066,6 @@
                 localStorage.setItem("userSettings", JSON.stringify(data));
             }
 
-            //Load settings on new user session
-            window.onload = function() {
-                loadTimezones();
-                const savedSettings = JSON.parse(localStorage.getItem("userSettings"));
-
-                if (savedSettings) {
-                    document.getElementById("user-name").value = savedSettings.name || "";
-                    document.getElementById("user-email").value = savedSettings.email || "";
-                    document.getElementById("user-age").value = savedSettings.age || "";
-                    document.getElementById("timezone").value = savedSettings.timezone || "";
-                }
-            };
 
         </script>
     </body>

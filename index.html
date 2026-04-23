@@ -542,8 +542,8 @@
 
                 <div id="todo-list"></div>
 
-                <div style="display:flex; gap:10px; margin-top:15px;">
-                    <input type="text" id="todo-input" class="input-field" placeholder="Add a task...">
+                <div style="display:flex; gap:10px; margin-top:15px; color: var(--text-color);">
+                    <input type="text" id="todo-input" class="input-field" placeholder="Add a task..." style="color: var(--text-color);">
                     <button class="btn-add" onclick="addTodo()">Add</button>
                 </div>
             </div>
@@ -989,6 +989,7 @@
                 item.style.justifyContent = "space-between";
                 item.style.padding = "10px";
                 item.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
+                item.style.color = "var(--text-color)";
 
                 item.innerHTML = `
                     <div style="display:flex; align-items:center; gap:10px;">

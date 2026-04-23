@@ -28,11 +28,11 @@
 
             /* DARKMODE */
             .darkmode{
-                --background-color: #0f172a;    /* Deep Slate */
-                --card-bg: #1e293b;             /* Lighter Slate for cards */
+                --background-color: #0f172a;  /* Deep Slate */
+                --card-bg: #1e293b;           /* Lighter Slate for cards */
                 --sidebar: #000d37;
                 --sidebar-gradient: #1e3a8a;
-                --text-color: #f1f5f9;          /* Off-white */
+                --text-color: #f1f5f9;        /* Off-white */
 
                 /* Vibrant Status for Dark Mode */
                 --red-button: #ff8080;
@@ -344,14 +344,6 @@
             transition: opacity 0.3s ease;
             }
 
-            /* Unit click styling */
-            .unit-click {
-                cursor: pointer;
-                transition: background-color 0.2s;
-            }
-            .unit-click:hover {
-                background-color: rgba(0, 95, 227, 0.05);
-            }
 
             /* Mini progress bar in units table */
             .mini-progress {
@@ -562,12 +554,11 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 15%;">Unit Code</th>
-                            <th style="width: 15%;">Due Date</th>
-                            <th style="width: 35%;">Assignments</th>
-                            <th style="width: 15%; text-align: center;">Countdown</th>
-                            <th style="width: 15%;">Status</th>
-                            <th style="width: 5%;"></th>
+                            <th>Unit Code</th>
+                            <th>Due Date</th>
+                            <th>Assignments</th>
+                            <th>Countdown</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
 
@@ -691,7 +682,7 @@
                     }
             
                     // 5. Update the storage so the "deleted" empty rows stay gone
-                    saveTableData();
+                    saveTableData();  // Save when status changes
                 }
 
                 const hash = window.location.hash;
@@ -716,8 +707,8 @@
                 selectElement.classList.remove('status-not-started', 'status-in-progress', 'status-completed');
                 const status = selectElement.value;
                 if (status) selectElement.classList.add('status-' + status);
-                saveTableData();
-                updateUnitProgress();
+                    saveTableData();
+                    updateUnitProgress();
             }
 
             // 3. Add Row (Updated to STORE data)
@@ -973,7 +964,7 @@
                     .filter(row => row.unit === unitCode);
 
                 if (filtered.length === 0) {
-                    tbody.innerHTML = "<tr><td colspan='6'>No assignments found for this unit.</td></tr>";
+                    tbody.innerHTML = "<tr><td colspan='5'>No assignments found</td></tr>";
                     return;
                 }
 
@@ -991,15 +982,19 @@
                             <input type="text" class="input-field" value="${row.unit}"
                             oninput="updateFiltered(${row.index}, 'unit', this.value)">
                         </td>
+
                         <td>
                             <input type="date" class="input-field" value="${row.date}"
                             onchange="updateFilteredDate(${row.index}, this)">
                         </td>
+
                         <td>
                             <input type="text" class="input-field" value="${row.assignment}"
                             oninput="updateFiltered(${row.index}, 'assignment', this.value)">
                         </td>
+
                         <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
+
                         <td>
                             <select class="status-dropdown status-${row.status}"
                             onchange="updateStatusColour(this); updateFiltered(${row.index}, 'status', this.value)">
@@ -1008,6 +1003,7 @@
                                 <option value="completed" ${row.status === 'completed' ? 'selected' : ''}>Completed</option>
                             </select>
                         </td>
+
                         <td><button class="btn-delete" onclick="deleteFiltered(${row.index})">&times;</button></td>
                     `;
 

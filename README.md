@@ -22,6 +22,6 @@ Currently under development (Frontend completed, Backend in progress).
 
 ## CREATED 
 Sinan Basheer 
-Stacy Doyal
-Parthvi 
-Andrew 
+Stacie Doyle
+Paarthvi Marfatia
+Andrew Seo

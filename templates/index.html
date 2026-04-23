@@ -559,11 +559,7 @@
                             <th>Assignments</th>
                             <th>Countdown</th>
                             <th>Status</th>
-                            <th>Unit Code</th>
-                            <th>Due Date</th>
-                            <th>Assignments</th>
-                            <th>Countdown</th>
-                            <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -571,6 +567,7 @@
                 </table>
 
                 <button onclick="showUnits()">← Back</button>
+                <button class="btn-add" onclick="addAssignmentToUnit()">+ Add Assignment</button>
             </div>
         </div>
 
@@ -747,6 +744,7 @@
 
             // 4. Delete Row & Save
             function removeRow(button) {
+                if (!confirm("Are you sure you want to delete this unit?")) return;
                 button.closest('tr').remove();
                 saveTableData();
             }
@@ -882,6 +880,7 @@
                 }
 
             function removeUnitRow(button) {
+                if (!confirm("Are you sure you want to delete this unit?")) return;
                 button.closest('tr').remove();
                 saveUnitsData();
             }
@@ -947,29 +946,34 @@
 
                 if (filtered.length === 0) {
                     tbody.innerHTML = "<tr><td colspan='5'>No assignments found</td></tr>";
-                    tbody.innerHTML = "<tr><td colspan='5'>No assignments found</td></tr>";
                     return;
                 }
 
                 filtered.forEach(row => {
                     const tr = document.createElement("tr");
 
+                    let countdown = "-";
+                        if (row.date) {
+                            const diff = new Date(row.date) - new Date().setHours(0,0,0,0);
+                            countdown = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                        }
+
                     tr.innerHTML = `
                         <td>
                             <input type="text" class="input-field" value="${row.unit}" 
-                            oninput="updateFiltered(${row.index}, 'unit', this.value)">
+                            onchange="updateFiltered(${row.index}, 'unit', this.value)">
                         </td>
 
 
                         <td>
-                            <input type="date" class="input-field" value="${row.date}" 
-                            onchange="updateStatusColour(this); updateFiltered(${row.index}, 'status', this.value)">
+                            <input type="date" class="input-field" value="${row.date}"
+                            onchange="updateFiltered(${row.index}, 'date', this.value)">
                         </td>
 
 
                         <td>
-                            <input type="text" class="input-field" value="${row.assignment}" 
-                            oninput="updateFiltered(${row.index}, 'assignment', this.value)">
+                            <input type="text" class="input-field" value="${row.assignment}"
+                            onchange="updateFiltered(${row.index}, 'assignment', this.value)">
                         </td>
 
                         <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
@@ -1007,7 +1011,43 @@
                 localStorage.setItem('deadlineData', JSON.stringify(data));
 
                 refreshDashboardTable();
+
+                const unitCode = localStorage.getItem("selectedUnit");
+                loadFilteredDeadlines(unitCode);
             }
+
+            function deleteFiltered(index) {
+                if (!confirm("Are you sure you want to delete this assignment?")) return;
+
+                const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
+                data.splice(index, 1);
+
+                localStorage.setItem('deadlineData', JSON.stringify(data));
+
+                refreshDashboardTable();
+
+                const unitCode = localStorage.getItem("selectedUnit");
+                loadFilteredDeadlines(unitCode);
+            }
+
+            function addAssignmentToUnit() {
+                const unitCode = localStorage.getItem("selectedUnit");
+
+                const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
+
+                data.push({
+                    unit: unitCode,
+                    date: "",
+                    assignment: "",
+                    status: "not-started"
+                });
+
+                localStorage.setItem('deadlineData', JSON.stringify(data));
+
+                loadFilteredDeadlines(unitCode);
+                refreshDashboardTable();
+            }
+
 
             //Functions for Personal To-Do List Section
             //Logic Function for the To-Do List

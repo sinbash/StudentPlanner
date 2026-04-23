@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Planner</title>
+
+        <!-- CSS styling -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+    </head>
+
+    <!-- Text Seen on HTML -->
+
+    <body>
+        <nav class="sidebar"> 
+            <h2 style="color: white;">Student Planner</h2>
+
+            <a onclick="showDashboard()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+                Dashboard 
+            </a>
+
+            <a onclick="showUnits()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M300-80q-58 0-99-41t-41-99v-520q0-58 41-99t99-41h500v600q-25 0-42.5 17.5T740-220q0 25 17.5 42.5T800-160v80H300Zm-60-267q14-7 29-10t31-3h20v-440h-20q-25 0-42.5 17.5T240-740v393Zm160-13h320v-440H400v440Zm-160 13v-453 453Zm60 187h373q-6-14-9.5-28.5T660-220q0-16 3-31t10-29H300q-26 0-43 17.5T240-220q0 26 17 43t43 17Z"/></svg> 
+                My Units
+            </a> 
+            <a onclick="showTodo()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>
+                Personal To-Do List
+            </a> 
+            <a href="Grades_update.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+                Grades
+            </a>
+            <a href="profile.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                Profile
+            </a>
+            <a onclick="showSettings()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
+                Settings 
+            </a>
+            <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-593-87q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z"/></svg>
+                Invite a Friend
+            </a>
+        </nav>
+    
+
+        <div class="main-content">
+            <header class="top-header">
+                <div class="content">
+                    <p class="dashboard-welcome-header" style="margin: 0; padding: 0px 30px;">Welcome Back, <span id="display-name">User</span>!</p>
+                </div>
+
+                <div class="header-controls">
+                    <div class="time-display">
+                        <div id="clock" style="font-weight: bold;">00:00:00</div>
+                        <div id="date">Loading...</div>
+                    </div>
+
+                    <button id="theme-switch">
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M338.5-338.5Q280-397 280-480t58.5-141.5Q397-680 480-680t141.5 58.5Q680-563 680-480t-58.5 141.5Q563-280 480-280t-141.5-58.5ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/></svg>
+                    </button>
+                </div></header>
+        
+        <div id="dashboard-section">
+            <div class="setup-container" style="margin-bottom: 0px; padding: 15px 30px; background: var(--background-color); border-radius: 10px;">
+                <label style="color: var(--text-color)"> 
+                    Start: <input type="date" id="start-input" style="background-color: var(--card-bg); color: var(--text-color)";>
+                </label>
+                <label style="color: var(--text-color)">
+                    End: <input type="date" id="end-input" style="background-color: var(--card-bg); color: var(--text-color)";>
+                </label>
+                <button onclick="saveDates()" style="background: var(--sidebar-gradient ); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Update Semester</button>
+            </div>
+
+            <div class="top-stats-row" style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; padding: 0 25px;">
+    
+                <div class="semester-container" style="flex: 2; margin-bottom: 0;">
+                    <div class="semester-header">
+                        <span class="week-text">Semester Progress: <strong id="current-week">Set your dates above</strong></span>
+                        <span class="percent-text" id="percent-complete">0% Complete</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <main class="content">
+                <div class="card">
+                <h2 style="margin-top: 0;">Deadlines</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Unit Code</th>
+                            <th style="width: 15%;">Due Date</th>
+                            <th style="width: 40%;">Assignments</th>
+                            <th style="width: 15%; text-align: center;">Count Down</th>
+                            <th style="width: 20%;">Status</th>
+                            <th style="width: 5%;"></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="unit-body">
+                        <tr>
+                            <td><input type="text" class="input-field" placeholder="Unit Code"></td>
+                            <td><input type="date" class="input-field" onchange="calculateCountdown(this)"></td>
+                            <td><input type="text" class="input-field" placeholder="Assignments"></td>
+                            <td style="text-align: center; font-size: 1.1rem;">-</td>
+                            <td>
+                                <select class="status-dropdown status-not-started" onchange="updateStatusColour(this)">
+                                    <option value="not-started">Not started</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </td>
+                            <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="btn-add" onclick="addNewRow()">+ Add New Assignment</button>
+        
+                <!--  Notes Pad -->
+                <div class="notes-container">
+                    <div class="notes-header">
+                        <h3>Quick Scratchpad</h3>
+                        <span id="save-indicator" style="font-size: 0.7rem; opacity: 0.5;">Saved</span>
+                    </div>
+                    <textarea id="dashboard-notes" placeholder="..."></textarea>
+                </div>
+    
+            </main>   
+        </div>
+
+        <div id="units-section" style="display:none; padding: 10px 30px; margin-top: 10px; font-size: 1.2rem;">
+            <div class="card">
+                <h2>My Units</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Unit Code</th>
+                            <th>Semester</th>
+                            <th>Progress</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="units-body">
+                        <tr>
+                            <td onclick="openUnitPage(this.closest('tr'))" class="unit-click">
+                                <input type="text" class="input-field" placeholder="Unit Code">
+                            </td>
+                            <td>
+                                <input type="text" class="input-field" placeholder="Semester + Year">
+                            </td>
+                            <td>
+                                <div class="mini-progress">
+                                    <div class="mini-fill" style="width: 40%;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn-delete" onclick="event.stopPropagation(); removeRow(this)">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="btn-add" onclick="addNewUnitRow()">+ Add New Unit</button>
+            </div>
+        </div>
+
+        <div id="unit-detail-section" style="display:none;">
+            <div class="card">
+                <h2 id="unit-title">Unit</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Unit Code</th>
+                            <th>Due Date</th>
+                            <th>Assignments</th>
+                            <th>Countdown</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="filtered-deadlines"></tbody>
+                </table>
+
+                <button class="btn-add" onclick="addFilteredRow()">+ Add Assignment</button>
+                <button class="btn-back" onclick="showUnits()">← Back to Units</button>
+            </div>
+        </div>
+
+        <div id="todo-section" style="display:none; padding: 10px 30px;">
+            <div class="card">
+                <h2>Personal To-Do List</h2>
+
+                <div id="todo-list"></div>
+
+                <div style="display:flex; gap:10px; margin-top:15px; color: var(--text-color);">
+                    <input type="text" id="todo-input" class="input-field" placeholder="Add a task..." style="color: var(--text-color);">
+                    <button class="btn-add" onclick="addTodo()">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-section" style="display:none; padding: 10px 30px;">
+            <div class="card">
+                <h2>Settings</h2>
+
+                <div class="settings-group">
+                    <h3>User Information</h3>
+                    <input type="text" id="user-name" placeholder="Name" class="input-field" style="padding: 12px 15px; box-sizing: border-box;" >
+                    <input type="email" id="user-email" placeholder="Email" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="number" id="user-age" placeholder="Age" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                </div>
+        
+                <div class="settings-group">
+                    <h3>Change Password</h3>
+                    <input type="password" placeholder="Current Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" placeholder="New Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" placeholder="Confirm Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                </div>
+
+                <div class="settings-group">
+                    <h3>Timezone</h3>
+                    <select id="timezone" class="input-field"></select>
+                </div>
+
+                <button class="btn-add" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+
+
+        <!-- JAVA script -->
+
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    </body>
+</html>

@@ -584,7 +584,7 @@
 
                 <div id="todo-list"></div>
 
-                <div style="display:none; padding: 10px 30px;>
+                <div style="display:flex; gap:10px; margin-top:15px; color: var(--text-color);">
                     <input type="text" id="todo-input" class="input-field" placeholder="Add a task..." style="color: var(--text-color);">
                     <button class="btn-add" onclick="addTodo()">Add</button>
                 </div>
@@ -1071,7 +1071,6 @@
             }
 
             //Functions for Personal To-Do List Section
-            //Logic Function for the To-Do List
             function showTodo() {
                 hideAllSections();
                 document.getElementById("dashboard-section").style.display = "none";
@@ -1081,13 +1080,18 @@
             }
 
             function addTodo(text = "", completed = false, skipSave = false) {
+                // 1. Get the input field
                 const input = document.getElementById("todo-input");
+                
+                // 2. Determine if we are loading an old task or adding a new one from the box
                 const taskText = text || (input ? input.value.trim() : "");
 
+                // 3. If the box is empty, don't do anything
                 if (!taskText) return;
 
                 const list = document.getElementById("todo-list");
 
+                // 4. Create the HTML for the task
                 const item = document.createElement("div");
                 item.style.display = "flex";
                 item.style.alignItems = "center";
@@ -1099,20 +1103,27 @@
                 item.innerHTML = `
                     <div style="display:flex; align-items:center; gap:10px;">
                         <input type="checkbox" ${completed ? "checked" : ""}
-                            onchange="this.nextElementSibling.style.textDecoration = this.checked ? 'line-through' : 'none';saveTodos();">
-
+                            onchange="this.nextElementSibling.style.textDecoration = this.checked ? 'line-through' : 'none'; saveTodos();">
                         <span style="text-decoration:${completed ? "line-through" : "none"};">
                             ${taskText}
                         </span>
                     </div>
-
                     <button class="btn-delete" onclick="removeTodo(this)">&times;</button>
                 `;
 
                 list.appendChild(item);
 
-                input.value = "";
+                // 5. Clear the input box after adding
+                if (input) input.value = "";
+                
+                // 6. Save to local storage unless we are just loading existing data
                 if (!skipSave) saveTodos();
+            }
+
+            // Don't forget the helper functions for deleting and saving!
+            function removeTodo(button) {
+                button.parentElement.remove();
+                saveTodos();
             }
 
             //Delete Data Function: saves the deletion of data that user deletes.
@@ -1124,14 +1135,11 @@
             //Save Data Function: saves data that user enters into the To-Do List
             function saveTodos() {
                 const items = document.querySelectorAll("#todo-list > div");
-
                 const data = Array.from(items).map(item => {
                     const text = item.querySelector("span").innerText;
                     const completed = item.querySelector("input").checked;
-
                     return { text, completed };
                 });
-
                 localStorage.setItem("todoData", JSON.stringify(data));
             }
 

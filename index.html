@@ -133,7 +133,7 @@
 
             .top-header {
                 background: var(--background-color);
-                padding: 15px 30px;
+                padding: 10px 30px;
                 border-bottom: 1px solid var(--background-color);
                 display: flex;
                 justify-content: space-between;
@@ -163,7 +163,7 @@
             /* Table format */
 
             .content {
-                padding: 10px;
+                padding: 10px 30px;
                 margin-top: 10px;
                 font-size: 1.2rem;
                 color: var(--text-color);
@@ -199,6 +199,7 @@
                 transition: 0.2s;
                 font-size: 0.9rem;
                 font-weight: 300;
+                margin-bottom: 10px;
             }
 
             .input-field:focus {
@@ -249,6 +250,7 @@
                 font-weight: bold;
                 cursor: pointer;
                 transition: background-color 0.3s ease;
+                border-color: var(--text-color);
             } 
 
             .status-not-started {
@@ -269,11 +271,10 @@
             /* Semester progress format */
 
             .semester-container {
-                background: var(--background-color);
+                background: var(--card-bg);
                 padding: 20px;
                 border-radius: 12px;
-                box-shadow: 0 4px 6px var(--text-color);
-                margin-bottom: 25px;
+                margin-bottom: 0;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
 
@@ -308,9 +309,9 @@
             .notes-container {
                 margin-top: 20px;
                 padding: 20px;
-                background: rgba(255, 255, 255, 0.6); 
+                background: var(--background-color); 
                 border-radius: 15px;
-                border: 1px solid;
+                border: 0.5px solid;
             }
 
             #dashboard-notes {
@@ -423,7 +424,7 @@
         <div class="main-content">
             <header class="top-header">
                 <div class="content">
-                    <p class="dashboard-welcome-header" style="margin: 0;">Welcome Back, <span id="display-name">User</span>!</p>
+                    <p class="dashboard-welcome-header" style="margin: 0; padding: 0px 30px;">Welcome Back, <span id="display-name">User</span>!</p>
                 </div>
 
                 <div class="header-controls">
@@ -439,7 +440,7 @@
                 </div></header>
         
         <div id="dashboard-section">
-            <div class="setup-container" style="margin-bottom: 0px; padding: 15px; background: var(--background-color); border-radius: 10px;">
+            <div class="setup-container" style="margin-bottom: 0px; padding: 15px 30px; background: var(--background-color); border-radius: 10px;">
                 <label style="color: var(--text-color)"> 
                     Start: <input type="date" id="start-input" style="background-color: var(--card-bg); color: var(--text-color)";>
                 </label>
@@ -449,7 +450,7 @@
                 <button onclick="saveDates()" style="background: var(--sidebar-gradient ); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Update Semester</button>
             </div>
 
-            <div class="top-stats-row" style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; padding: 0 10px;">
+            <div class="top-stats-row" style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; padding: 0 25px;">
     
                 <div class="semester-container" style="flex: 2; margin-bottom: 0;">
                     <div class="semester-header">
@@ -510,7 +511,7 @@
             </main>   
         </div>
 
-        <div id="units-section" style="display:none;">
+        <div id="units-section" style="display:none; padding: 10px 30px; margin-top: 10px; font-size: 1.2rem;">
             <div class="card">
                 <h2>My Units</h2>
                 <table>
@@ -570,35 +571,35 @@
             </div>
         </div>
 
-        <div id="todo-section" style="display:none;">
+        <div id="todo-section" style="display:none; padding: 10px 30px;">
             <div class="card">
                 <h2>Personal To-Do List</h2>
 
                 <div id="todo-list"></div>
 
-                <div style="display:flex; gap:10px; margin-top:15px; color: var(--text-color);">
+                <div style="display:none; padding: 10px 30px;>
                     <input type="text" id="todo-input" class="input-field" placeholder="Add a task..." style="color: var(--text-color);">
                     <button class="btn-add" onclick="addTodo()">Add</button>
                 </div>
             </div>
         </div>
 
-        <div id="settings-section" style="display:none;">
+        <div id="settings-section" style="display:none; padding: 10px 30px;">
             <div class="card">
                 <h2>Settings</h2>
 
                 <div class="settings-group">
                     <h3>User Information</h3>
-                    <input type="text" id="user-name" placeholder="Name" class="input-field">
-                    <input type="email" id="user-email" placeholder="Email" class="input-field">
-                    <input type="number" id="user-age" placeholder="Age" class="input-field">
+                    <input type="text" id="user-name" placeholder="Name" class="input-field" style="padding: 12px 15px; box-sizing: border-box;" >
+                    <input type="email" id="user-email" placeholder="Email" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="number" id="user-age" placeholder="Age" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
                 </div>
         
                 <div class="settings-group">
                     <h3>Change Password</h3>
-                    <input type="password" placeholder="Current Password" class="input-field">
-                    <input type="password" placeholder="New Password" class="input-field">
-                    <input type="password" placeholder="Confirm Password" class="input-field">
+                    <input type="password" placeholder="Current Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" placeholder="New Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" placeholder="Confirm Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
                 </div>
 
                 <div class="settings-group">

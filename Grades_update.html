@@ -642,6 +642,14 @@
         if (!u) return;
         const a = u.assessments.find(a => a.id === asmId);
         if (!a) return;
+        if (field === 'weight' || field === 'grade') {
+            let num = parseFloat(value);
+            if (!isNaN(num)) {
+                if (num < 0) num = 0;
+                if (num > 100) num = 100;
+                value = String(num);
+            }
+        }
         a[field] = value;
         save();
         refreshUnit(unitId);
@@ -807,11 +815,68 @@
         if (!u) return;
         const card = document.querySelector(`[data-unit="${unitId}"]`);
         if (!card) return;
-        const tmp = document.createElement('div');
-        tmp.innerHTML = unitHTML(u);
-        const newCard = tmp.firstElementChild;
-        attachListeners(newCard);
-        card.replaceWith(newCard);
+
+        const { weightedSum, totalWeight, remaining, current } = calcUnit(u);
+
+        // Update grade badge in header (only if changed)
+        const badge = card.querySelector('.grade-badge');
+        if (badge) {
+            const newBadgeClass = 'grade-badge ' + gradeClass(current);
+            const newBadgeHTML = (current !== null ? current.toFixed(1) + '%' : '—') + ' &nbsp; ' + gradeLabel(current);
+            if (badge.className !== newBadgeClass) badge.className = newBadgeClass;
+            if (badge.innerHTML !== newBadgeHTML) badge.innerHTML = newBadgeHTML;
+        }
+
+        // Update weight bar (only if changed)
+        const barMeta = card.querySelector('.weight-bar-meta');
+        if (barMeta) {
+            const wText = 'Weight entered: ' + totalWeight.toFixed(0) + '%';
+            const rText = remaining.toFixed(0) + '% remaining';
+            if (barMeta.children[0].textContent !== wText) barMeta.children[0].textContent = wText;
+            if (barMeta.children[1].textContent !== rText) barMeta.children[1].textContent = rText;
+        }
+        const barFill = card.querySelector('.weight-bar-fill');
+        const newWidth = Math.min(totalWeight, 100) + '%';
+        if (barFill && barFill.style.width !== newWidth) barFill.style.width = newWidth;
+
+        // Update contribution cells (only if changed, to avoid layout reflow)
+        u.assessments.forEach(a => {
+            const row = card.querySelector(`[data-field="name"][data-asmid="${a.id}"]`);
+            if (!row) return;
+            const tr = row.closest('tr');
+            if (!tr) return;
+            const contribCell = tr.querySelector('.contrib-cell');
+            if (!contribCell) return;
+            const w = parseFloat(a.weight), g = parseFloat(a.grade);
+            const contrib = (!isNaN(w) && !isNaN(g) && w > 0) ? ((g / 100) * w).toFixed(1) : null;
+            const newClass = 'contrib-cell' + (contrib !== null ? ' has-val' : '');
+            const newText = contrib !== null ? contrib + '%' : '—';
+            if (contribCell.className !== newClass) contribCell.className = newClass;
+            if (contribCell.textContent !== newText) contribCell.textContent = newText;
+        });
+
+        // Update target info
+        const targetRow = card.querySelector('.target-row');
+        if (targetRow) {
+            let existingInfo = targetRow.querySelector('.target-info');
+            let html = '';
+            if (remaining > 0 && totalWeight > 0) {
+                const needed = ((u.target - weightedSum) / remaining) * 100;
+                if (needed <= 0) html = `<span class="target-info good">Already on track ✓</span>`;
+                else if (needed > 100) html = `<span class="target-info bad">Not achievable (need ${needed.toFixed(0)}%)</span>`;
+                else html = `<span class="target-info">Need <strong>${needed.toFixed(1)}%</strong> avg on remaining ${remaining.toFixed(0)}%</span>`;
+            } else if (!totalWeight) {
+                html = `<span class="target-info">Add assessments to see</span>`;
+            } else {
+                html = `<span class="target-info good">All assessments entered</span>`;
+            }
+            if (existingInfo) {
+                const tmp = document.createElement('div');
+                tmp.innerHTML = html;
+                existingInfo.replaceWith(tmp.firstElementChild);
+            }
+        }
+
         updateSummary();
     }
 

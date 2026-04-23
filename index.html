@@ -590,6 +590,16 @@
 
             window.onload = function() {
 
+                // Load logged-in username from session
+                fetch('/api/me')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.username) {
+                            document.getElementById('display-name').textContent = data.username;
+                        }
+                    })
+                    .catch(() => {});
+
                 //Load settings on new user session
                 loadTimezones();
                 const savedSettings = JSON.parse(localStorage.getItem("userSettings"));

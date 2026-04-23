@@ -133,7 +133,7 @@
 
             .top-header {
                 background: var(--background-color);
-                padding: 0px 30px;
+                padding: 10px 30px;
                 border-bottom: 1px solid var(--background-color);
                 display: flex;
                 justify-content: space-between;
@@ -199,6 +199,7 @@
                 transition: 0.2s;
                 font-size: 0.9rem;
                 font-weight: 300;
+                margin-bottom: 10px;
             }
 
             .input-field:focus {
@@ -249,6 +250,7 @@
                 font-weight: bold;
                 cursor: pointer;
                 transition: background-color 0.3s ease;
+                border-color: var(--text-color);
             } 
 
             .status-not-started {
@@ -307,9 +309,9 @@
             .notes-container {
                 margin-top: 20px;
                 padding: 20px;
-                background: rgba(255, 255, 255, 0.6); 
+                background: var(--background-color); 
                 border-radius: 15px;
-                border: 1px solid;
+                border: 0.5px solid;
             }
 
             #dashboard-notes {
@@ -430,7 +432,7 @@
         <div class="main-content">
             <header class="top-header">
                 <div class="content">
-                    <p class="dashboard-welcome-header" style="margin: 0;">Welcome Back, <span id="display-name">User</span>!</p>
+                    <p class="dashboard-welcome-header" style="margin: 0; padding: 0px 30px;">Welcome Back, <span id="display-name">User</span>!</p>
                 </div>
 
                 <div class="header-controls">
@@ -591,22 +593,22 @@
             </div>
         </div>
 
-        <div id="settings-section" style="display:none;">
+        <div id="settings-section" style="display:none; padding: 10px 30px;">
             <div class="card">
                 <h2>Settings</h2>
 
                 <div class="settings-group">
                     <h3>User Information</h3>
-                    <input type="text" id="user-name" placeholder="Name" class="input-field">
-                    <input type="email" id="user-email" placeholder="Email" class="input-field">
-                    <input type="number" id="user-age" placeholder="Age" class="input-field">
+                    <input type="text" id="user-name" placeholder="Name" class="input-field" style="padding: 12px 15px; box-sizing: border-box;" >
+                    <input type="email" id="user-email" placeholder="Email" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="number" id="user-age" placeholder="Age" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
                 </div>
         
                 <div class="settings-group">
                     <h3>Change Password</h3>
-                    <input type="password" placeholder="Current Password" class="input-field">
-                    <input type="password" placeholder="New Password" class="input-field">
-                    <input type="password" placeholder="Confirm Password" class="input-field">
+                    <input type="password" placeholder="Current Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" placeholder="New Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" placeholder="Confirm Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
                 </div>
 
                 <div class="settings-group">

@@ -8,8 +8,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app) 
 
 
-
-
 @app.route('/')
 def home():
     return render_template("index.html")
@@ -20,7 +18,7 @@ def login():
 
 @app.route("/signup")
 def signup():
-    return render_template("login.html")
+    return render_template("signup.html")
 
 @app.route("/reset")
 def reset():

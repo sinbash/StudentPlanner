@@ -560,14 +560,15 @@
                             <th>Assignments</th>
                             <th>Countdown</th>
                             <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
 
                     <tbody id="filtered-deadlines"></tbody>
                 </table>
 
-                <button class="btn-add" onclick="addFilteredRow()">+ Add Assignment</button>
-                <button class="btn-back" onclick="showUnits()">← Back to Units</button>
+                <button onclick="showUnits()">← Back</button>
+                <button class="btn-add" onclick="addAssignmentToUnit()">+ Add Assignment</button>
             </div>
         </div>
 
@@ -744,6 +745,7 @@
 
             // 4. Delete Row & Save
             function removeRow(button) {
+                if (!confirm("Are you sure you want to delete this unit?")) return;
                 button.closest('tr').remove();
                 saveTableData();
             }
@@ -879,6 +881,7 @@
                 }
 
             function removeUnitRow(button) {
+                if (!confirm("Are you sure you want to delete this unit?")) return;
                 button.closest('tr').remove();
                 saveUnitsData();
             }
@@ -908,28 +911,6 @@
                 } else {
                     addNewUnitRow(); // default row
                 }
-                updateUnitProgress();
-            }
-
-            // Calculate real progress for each unit based on completed deadlines
-            function updateUnitProgress() {
-                const deadlines = JSON.parse(localStorage.getItem('deadlineData')) || [];
-                const rows = document.querySelectorAll('#units-body tr');
-
-                rows.forEach(row => {
-                    const unitInput = row.cells[0].querySelector('input');
-                    if (!unitInput) return;
-                    const unitCode = unitInput.value.trim();
-                    if (!unitCode) return;
-
-                    const unitDeadlines = deadlines.filter(d => d.unit === unitCode);
-                    const total = unitDeadlines.length;
-                    const completed = unitDeadlines.filter(d => d.status === 'completed').length;
-                    const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
-
-                    const fill = row.querySelector('.mini-fill');
-                    if (fill) fill.style.width = pct + '%';
-                });
             }
         
             function openUnitPage(row) {
@@ -961,7 +942,7 @@
                 tbody.innerHTML = "";
 
                 const filtered = savedTable
-                    .map((row, index) => ({ ...row, index }))
+                    .map((row, index) => ({ ...row, index })) // keep original index
                     .filter(row => row.unit === unitCode);
 
                 if (filtered.length === 0) {
@@ -973,31 +954,33 @@
                     const tr = document.createElement("tr");
 
                     let countdown = "-";
-                    if (row.date) {
-                        const diff = new Date(row.date) - new Date().setHours(0,0,0,0);
-                        countdown = Math.ceil(diff / (1000 * 60 * 60 * 24));
-                    }
+                        if (row.date) {
+                            const diff = new Date(row.date) - new Date().setHours(0,0,0,0);
+                            countdown = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                        }
 
                     tr.innerHTML = `
                         <td>
-                            <input type="text" class="input-field" value="${row.unit}"
-                            oninput="updateFiltered(${row.index}, 'unit', this.value)">
+                            <input type="text" class="input-field" value="${row.unit}" 
+                            onchange="updateFiltered(${row.index}, 'unit', this.value)">
                         </td>
+
 
                         <td>
                             <input type="date" class="input-field" value="${row.date}"
-                            onchange="updateFilteredDate(${row.index}, this)">
+                            onchange="updateFiltered(${row.index}, 'date', this.value)">
                         </td>
+
 
                         <td>
                             <input type="text" class="input-field" value="${row.assignment}"
-                            oninput="updateFiltered(${row.index}, 'assignment', this.value)">
+                            onchange="updateFiltered(${row.index}, 'assignment', this.value)">
                         </td>
 
                         <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
 
                         <td>
-                            <select class="status-dropdown status-${row.status}"
+                            <select class="status-dropdown status-${row.status}" 
                             onchange="updateStatusColour(this); updateFiltered(${row.index}, 'status', this.value)">
                                 <option value="not-started" ${row.status === 'not-started' ? 'selected' : ''}>Not started</option>
                                 <option value="in-progress" ${row.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
@@ -1023,50 +1006,49 @@
 
             function updateFiltered(index, field, value) {
                 const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
+
                 data[index][field] = value;
-                localStorage.setItem('deadlineData', JSON.stringify(data));
-                refreshDashboardTable();
-                updateUnitProgress();
-            }
 
-            function updateFilteredDate(index, dateInput) {
-                const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
-                data[index].date = dateInput.value;
                 localStorage.setItem('deadlineData', JSON.stringify(data));
 
-                // Update countdown in the same row
-                const row = dateInput.closest('tr');
-                const selectedDate = new Date(dateInput.value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const diffDays = Math.ceil((selectedDate - today) / (1000 * 60 * 60 * 24));
-                row.cells[3].innerText = isNaN(diffDays) ? "-" : diffDays;
-
                 refreshDashboardTable();
+
+                const unitCode = localStorage.getItem("selectedUnit");
+                loadFilteredDeadlines(unitCode);
             }
 
             function deleteFiltered(index) {
+                if (!confirm("Are you sure you want to delete this assignment?")) return;
+
                 const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
                 data.splice(index, 1);
-                localStorage.setItem('deadlineData', JSON.stringify(data));
-                refreshDashboardTable();
-                updateUnitProgress();
 
-                const unitCode = localStorage.getItem("selectedUnit");
-                if (unitCode) loadFilteredDeadlines(unitCode);
-            }
-
-            function addFilteredRow() {
-                const unitCode = localStorage.getItem("selectedUnit");
-                if (!unitCode) return;
-
-                const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
-                data.push({ unit: unitCode, date: '', assignment: '', status: 'not-started' });
                 localStorage.setItem('deadlineData', JSON.stringify(data));
 
                 refreshDashboardTable();
+
+                const unitCode = localStorage.getItem("selectedUnit");
                 loadFilteredDeadlines(unitCode);
             }
+
+            function addAssignmentToUnit() {
+                const unitCode = localStorage.getItem("selectedUnit");
+
+                const data = JSON.parse(localStorage.getItem('deadlineData')) || [];
+
+                data.push({
+                    unit: unitCode,
+                    date: "",
+                    assignment: "",
+                    status: "not-started"
+                });
+
+                localStorage.setItem('deadlineData', JSON.stringify(data));
+
+                loadFilteredDeadlines(unitCode);
+                refreshDashboardTable();
+            }
+
 
             //Functions for Personal To-Do List Section
             function showTodo() {

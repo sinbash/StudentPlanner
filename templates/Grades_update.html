@@ -429,39 +429,10 @@
 
         .material-symbols-outlined { font-size: 20px; line-height: 1; display: flex; align-items: center; }
 
-        /* Toast notifications */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast-msg {
-            background: var(--red-button);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s, transform 0.3s;
-        }
-        .toast-msg.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
     </style>
 </head>
 
 <body>
-
-<div class="toast-container" id="toast-container"></div>
 
 <!-- Sidebar -->
     <nav class="sidebar">
@@ -570,20 +541,6 @@
 
 <script>
 
-    // ── Toast notification ──
-    function showToast(msg) {
-        const container = document.getElementById('toast-container');
-        const el = document.createElement('div');
-        el.className = 'toast-msg';
-        el.textContent = msg;
-        container.appendChild(el);
-        requestAnimationFrame(() => el.classList.add('show'));
-        setTimeout(() => {
-            el.classList.remove('show');
-            setTimeout(() => el.remove(), 300);
-        }, 2500);
-    }
-
     // ── Clock ──
     function startClock() {
         const now = new Date();
@@ -688,14 +645,8 @@
         if (field === 'weight' || field === 'grade') {
             let num = parseFloat(value);
             if (!isNaN(num)) {
-                if (num > 100) {
-                    showToast(field === 'weight' ? 'Weight cannot exceed 100%' : 'Grade cannot exceed 100%');
-                    num = 100;
-                }
-                if (num < 0) {
-                    showToast(field === 'weight' ? 'Weight cannot be negative' : 'Grade cannot be negative');
-                    num = 0;
-                }
+                if (num < 0) num = 0;
+                if (num > 100) num = 100;
                 value = String(num);
             }
         }

@@ -8,6 +8,33 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app) 
 
 
+
+
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/signup")
+def signup():
+    return render_template("login.html")
+
+@app.route("/reset")
+def reset():
+    return render_template("reset.html")
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
+
+
+@app.route("/grades")
+def grades():
+    return render_template("grades.html")
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

@@ -1,2 +1,16 @@
+# Database
+*.db
+
+# Flask instance folder
+instance/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+env/
+
+# macOS
 .DS_Store
-.venv

@@ -59,14 +59,11 @@
 
                     // 3. Only show the rows that actually have content
                     if (activeRows.length > 0) {
-                        activeRows.forEach(rowData => addNewRow(rowData));
+                        activeRows.forEach(rowData => addNewRow(rowData, false));
                     } else {
                         // 4. If everything was empty, add one fresh blank row so the table isn't invisible
                         addNewRow();
                     }
-            
-                    // 5. Update the storage so the "deleted" empty rows stay gone
-                    saveTableData();  // Save when status changes
                 }
 
                 const hash = window.location.hash;
@@ -97,6 +94,7 @@
 
             // 3. Add Row (Updated to STORE data)
             function addNewRow(data = { unit: '', date: '', assignment: '', status: 'not-started' }) {
+                shouldSave = true
                 const tableBody = document.getElementById('unit-body');
                 const row = document.createElement('tr');
         
@@ -121,6 +119,7 @@
                     </td>
                     <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
                 `;
+
                 tableBody.appendChild(row);
                 saveTableData();
             }
@@ -175,15 +174,26 @@
             // 7. Saving data in the deadline table
             function saveTableData() {
                 const rows = document.querySelectorAll('#unit-body tr');
-                const data = Array.from(rows).map(row => {
-                    return {
-                        unit: row.cells[0].querySelector('input').value,
-                        date: row.cells[1].querySelector('input').value,
-                        assignment: row.cells[2].querySelector('input').value,
+                const data = Array.from(rows)
+                .map(row => ({
+                        unit: row.cells[0].querySelector('input').value.trim(),
+                        date: row.cells[1].querySelector('input').value.trim(),
+                        assignment: row.cells[2].querySelector('input').value.trim(),
                         status: row.cells[4].querySelector('select').value
-                    };
-                });
+                }))
+                .filter(row =>
+                    row.unit !== "" ||
+                    row.date !== "" ||
+                    row.assignment !== ""
+                );
+
                 localStorage.setItem('deadlineData', JSON.stringify(data));
+                
+                const selectedUnit = localStorage.getItem("selectedUnit");
+                if (selectedUnit) {
+                    loadFilteredDeadlines(selectedUnit);
+                }
+                updateUnitProgress();
             }
 
 
@@ -259,7 +269,19 @@
 
                 tableBody.appendChild(row);
                 saveUnitsData();
+
+                const deadlines = JSON.parse(localStorage.getItem('deadlineData')) || [];
+
+                if (data.unit) {
+                    deadlines.push({
+                        unit: data.unit,
+                        date: '',
+                        assignment: '',
+                        status: 'not-started'
+                    });
+                    localStorage.setItem('deadlineData', JSON.stringify(deadlines));
                 }
+            }
 
             function removeUnitRow(button) {
                 button.closest('tr').remove();
@@ -401,7 +423,7 @@
 
                 tableBody.innerHTML = "";
 
-                savedTable.forEach(rowData => addNewRow(rowData));
+                savedTable.forEach(rowData => addNewRow(rowData, false));
             }
 
             function updateFiltered(index, field, value) {
@@ -450,6 +472,7 @@
                 refreshDashboardTable();
                 loadFilteredDeadlines(unitCode);
             }
+
 
             //Functions for Personal To-Do List Section
             function showTodo() {

@@ -7,6 +7,16 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app) 
 
+# class Todo(db.Model):
+#     id = db.Coloumn(db.Integer,primery_key = True,nullable = False)
+#     firstName = db.Coloumn(db.String(200), nullable = False)
+#     lastName = db.Coloumn(db.String(200), nullable = False)
+#     email = db.Coloumn(db.String(200), nullable = False)
+#     password = db.Coloumn(db.String(200), nullable = False)
+#     dob = db.Coloumn()
+
+
+
 
 @app.route('/')
 def home():

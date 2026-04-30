@@ -43,6 +43,28 @@ def profile():
 def grades():
     return render_template("grades.html")
 
+@app.route("/findUser")
+def findUser():
+    return render_template("findUser.html", users=[], query="")
+
+@app.route('/search')
+def search_users():
+    query = request.args.get('query', '')
+    
+    # This line searches the database for usernames that 'contain' the query
+    # .all() gives us a list of every user object that matches
+    results = User.query.filter(User.username.contains(query)).all()
+    
+    return render_template("findUser.html", users=results, query=query)
+
+@app.route("/profile/<username>")
+def view_profile(username):
+    # Fetch the specific user from the database by their username
+    user_to_view = User.query.filter_by(username=username).first_or_404()
+    
+    # Render a profile page (you can use your existing profile.html or a new one)
+    return render_template("profile.html", user=user_to_view)
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

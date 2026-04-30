@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Planner</title>
+
+        <!-- CSS styling -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/findUser.css') }}">
+
+    </head>
+
+    <!-- Text Seen on HTML -->
+
+    <body>
+        <nav class="sidebar d-flex flex-column vh-100 p-3"> 
+            <h2 class="mb-4" style="color: white;">Student Planner</h2>
+
+            <a onclick="showDashboard()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+                Dashboard 
+            </a>
+
+            <a onclick="showUnits()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M300-80q-58 0-99-41t-41-99v-520q0-58 41-99t99-41h500v600q-25 0-42.5 17.5T740-220q0 25 17.5 42.5T800-160v80H300Zm-60-267q14-7 29-10t31-3h20v-440h-20q-25 0-42.5 17.5T240-740v393Zm160-13h320v-440H400v440Zm-160 13v-453 453Zm60 187h373q-6-14-9.5-28.5T660-220q0-16 3-31t10-29H300q-26 0-43 17.5T240-220q0 26 17 43t43 17Z"/></svg> 
+                My Units
+            </a> 
+            <a onclick="showTodo()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>
+                Personal To-Do List
+            </a> 
+            <a href="{{ url_for('grades') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+                Grades
+            </a>
+             <a href="{{ url_for('profile') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                Profile
+            </a>
+            <a onclick="showSettings()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
+                Settings 
+            </a>
+            <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M500-482q29-32 44.5-73t15.5-85q0-44-15.5-85T500-798q60 8 100 53t40 105q0 60-40 105t-100 53Zm220 322v-120q0-36-16-68.5T662-406q51 18 94.5 46.5T800-280v120h-80Zm80-280v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Zm-593-87q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM0-160v-112q0-34 17.5-62.5T64-378q62-31 126-46.5T320-440q66 0 130 15.5T576-378q29 15 46.5 43.5T640-272v112H0Zm320-400q33 0 56.5-23.5T400-640q0-33-23.5-56.5T320-720q-33 0-56.5 23.5T240-640q0 33 23.5 56.5T320-560ZM80-240h480v-32q0-11-5.5-20T540-306q-54-27-109-40.5T320-360q-56 0-111 13.5T100-306q-9 5-14.5 14T80-272v32Zm240-400Zm0 400Z"/></svg>
+                Find User
+            </a>
+            <a href="{{ url_for('login') }}" class="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+                Logout
+            </a>
+        </nav>
+    
+
+        <div class="main-content">
+            <header class="top-header">
+                <div class="content">
+                    <p class="dashboard-welcome-header" style="margin: 0; padding: 0px 15px;">Welcome Back, <span id="display-name">User</span>!</p>
+                </div>
+
+                <div class="header-controls">
+                    <div class="time-display">
+                        <div id="clock" style="font-weight: bold;">00:00:00</div>
+                        <div id="date">Loading...</div>
+                    </div>
+
+                    <button id="theme-switch">
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M338.5-338.5Q280-397 280-480t58.5-141.5Q397-680 480-680t141.5 58.5Q680-563 680-480t-58.5 141.5Q563-280 480-280t-141.5-58.5ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/></svg>
+                    </button>
+
+                   </div>
+            </header>
+
+        <section class="search-section">
+            <h1>Find Other Students</h1>
+            <form action="{{ url_for('search_users') }}" method="GET" class="search-form">
+                <input type="text" name="query" placeholder="Search by username..." required>
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="results-container">
+                {% if users %}
+                    <h3>Results</h3>
+                    {% for user in users %}
+                        <div class="user-card">
+                            <div class="user-info">
+                                <span class="username">@{{ user.username }}</span>
+                            </div>
+                            <a href="{{ url_for('view_profile', username=user.username) }}" class="profile-link">View Profile</a>
+                        </div>
+                    {% endfor %}
+                {% elif query %}
+                    <p class="no-results">No users found for "{{ query }}"</p>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+
+    <!-- Link to your external JavaScript -->
+    <script src="{{ url_for('static', filename='js/findUser.js') }}"></script>
+</body>
+
+<tbody>
+    {% for user in users %}
+    <tr>
+        <td style="padding-left: 20px;">
+            <!-- Passing the specific username to the URL -->
+            <a href="{{ url_for('view_profile', username=user.username) }}" 
+               style="color: var(--text-color); text-decoration: none; font-weight: bold;">
+                @{{ user.username }}
+            </a>
+        </td>
+        <td style="text-align: center;">
+            <a href="{{ url_for('view_profile', username=user.username) }}" class="btn-save" style="text-decoration: none;">
+                View Profile
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</html>

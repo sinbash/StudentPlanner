@@ -21,7 +21,12 @@ def home():
     if 'user_id' in session:
         return render_template("index.html")
     else:
-         return redirect(url_for('login'))
+        return redirect(url_for('login'))
+
+#If anyone needs to test the index page changes, uncomment the below code and temporarily comment the above home function to bypass login
+#@app.route('/')
+#def home():
+    #return render_template("index.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -86,3 +91,5 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+

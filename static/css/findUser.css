@@ -1,0 +1,213 @@
+            /* Theme colour */
+
+            /* Every colour of this wesbite has its own variable */
+            :root {
+            --background-color: #f4f7fe;
+            --card-bg: #ffffff;
+            --sidebar: #005fe3;
+            --sidebar-gradient: #1e428b;
+            --text-color: #2d3748;
+
+            /* Status Colors */
+            --red-button: #e53e3e;
+            --yellow-button: #d69e2e;
+            --green-button: #38a169;
+            --red-background: #fff5f5;
+            --yellow-background: #fffff0;
+            --green-background: #f0fff4;
+            }
+
+            /* DARKMODE */
+            .darkmode{
+                --background-color: #0f172a;  /* Deep Slate */
+                --card-bg: #1e293b;           /* Lighter Slate for cards */
+                --sidebar: #000d37;
+                --sidebar-gradient: #1e3a8a;
+                --text-color: #f1f5f9;        /* Off-white */
+
+                /* Vibrant Status for Dark Mode */
+                --red-button: #ff8080;
+                --yellow-button: #f6e05e;
+                --green-button: #68d391;
+                --red-background: rgba(255, 128, 128, 0.1);
+                --yellow-background: rgba(246, 224, 94, 0.1);
+                --green-background: rgba(104, 211, 145, 0.1);
+            }
+
+            #theme-switch{
+                order: 1;
+                height: 40px;
+                width: 40px;
+                padding: 0;
+                border-radius: 50%;
+                background-color: var(--background-color);
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                margin-left: 15px;
+         
+            }
+
+            #theme-switch svg{
+                position: absolute;
+                fill: var(--text-color);
+            }
+
+            /* Hide sun by default (on light mode), show moon */
+            .moon-icon {opacity: 1; transform: scale(1);}
+            .sun-icon {opacity: 0; transform: scale(0.5);}
+            
+
+            /* In darkmode, swap them */
+            .darkmode .moon-icon { opacity: 0; transform: scale(0.5); }
+            .darkmode .sun-icon { opacity: 1; transform: scale(1); fill: #f6e05e; }
+
+            /* Body */
+            body{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                display: flex;
+                min-height: 100vh; /*Makes background fill the whole screen */
+                background-color: var(--background-color);
+
+            }
+
+            .section-divider {
+                border: none; 
+                border-top: 1px solid var(--base-color); 
+                margin: 15px 0 20px 0;
+            }
+
+            
+            /* Side Bar */
+            .sidebar {
+                width: 200px;
+                height: 95vh;
+                background: linear-gradient(180deg, var(--sidebar), var(--sidebar-gradient));
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+                padding: 25px 15px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                position: fixed;
+            }
+
+            .sidebar h2 {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+                border-bottom: 1px solid var(--text-color);
+                padding-bottom: 10px;
+                height: 20px;
+
+            }
+
+            .sidebar a {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                color: rgba(255,255,255,0.9);
+                text-decoration: none;
+                padding: 12px;
+                border-radius: 6px;
+                font-size: 1rem;
+                transition: 0.2s;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            }
+
+            .sidebar a:hover { background-color: rgba(255,255,255,0.1);}
+
+            .logout-btn {
+                margin-top: auto; 
+                border-top: 1px solid rgba(255, 255, 255, 0.1); 
+                padding-top: 15px;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+            }
+            
+            /* Page format */
+            .main-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                margin-left: 230px;
+            }
+
+            .top-header {
+                background: var(--background-color);
+                padding: 10px 30px;
+                border-bottom: 1px solid var(--background-color);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 60px;
+            }
+
+            h1, h2, h3 {color: var(--text-color);}
+
+
+            /* Time */
+
+            .time-display {
+                text-align: right;
+                color: var(--text-color);
+                font-size: 0.9rem;
+                margin: 0;
+                line-height: 1.2;
+            }
+
+            .header-controls {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            /* Table format */
+
+            .content {
+                padding: 10px 30px;
+                margin-top: 10px;
+                font-size: 1.2rem;
+                color: var(--text-color);
+            }
+
+
+            /* Search button */
+            .search-section {
+                padding: 10px 30px;
+                background: var(--card-bg);
+                border-radius: 15px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                margin: 20px;
+            }
+
+            .search-form {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 30px;
+            }
+
+            .search-form input {
+                padding: 12px;
+                width: 100%;
+                border-radius: 8px 0 0 8px;
+                border: 1px solid #ccc;
+                background: var(--background-color);
+                color: var(--text-color);
+                outline: none;
+            }
+
+            /* Reusing your sidebar button style for the search button */
+            .search-form button {
+                background: var(--sidebar);
+                color: white;
+                padding: 0 25px;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .search-form button:hover {
+                opacity: 0.9;
+            }

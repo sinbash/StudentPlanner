@@ -1,4 +1,4 @@
-from flask import Flask , render_template, url_for, request, redirect, session
+from flask import Flask , render_template, url_for, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -7,6 +7,7 @@ app.secret_key = "your_secret_key"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app) 
 
+# 1. The Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(200), nullable=False)
@@ -14,13 +15,20 @@ class User(db.Model):
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     dob = db.Column(db.Date, nullable=False)
+# 2. (Build the Database)
+with app.app_context():
+    db.create_all()
+    print("Database tables created successfully")
 
 
+# 3. The Routes
 @app.route('/')
 def home():
     if 'user_id' in session:
-        return render_template("index.html")
+        user = User.query.get(session['user_id'])
+        return render_template("index.html", user=user)
     else:
+        # If not logged in, force them to the login page
         return redirect(url_for('login'))
 
 
@@ -34,18 +42,48 @@ def login():
      if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-
         user = User.query.filter_by(email=email).first()
 
         if user and user.password == password:   # replace with hash check later
             session['user_id'] = user.id
             return redirect(url_for('home'))
-
-        return "Invalid credentials"
+        else:
+            flash ("Invalid email or password")
+            return redirect(url_for('login'))
      return render_template("login.html")
 
-@app.route("/signup")
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
+    if request.method == "POST":
+        first_name = request.form.get('firstName')
+        last_name = request.form.get("lastName")
+        dob_str = request.form.get("dob")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Convert date string to object
+        dob_obj = datetime.strptime(dob_str, '%Y-%m-%d').date()
+
+        new_user = User(
+            firstName=first_name,
+            lastName=last_name,
+            email=email,
+            password=password,
+            dob=dob_obj
+        )
+
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            
+            # log the user in automatically after signup
+            session['user_id'] = new_user.id 
+            
+            # Redirect to home (index.html)
+            return redirect(url_for('home'))
+        except Exception as e:
+            return f"Error: {e}"
+
     return render_template("signup.html")
 
 @app.route("/reset")
@@ -55,11 +93,15 @@ def reset():
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
+    flash("You have been logged out successfully")
     return redirect(url_for('login'))
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    user = User.query.get(session['user_id'])
+    return render_template("profile.html", user=user)
 
 
 @app.route("/grades")
@@ -89,8 +131,6 @@ def view_profile(username):
     return render_template("profile.html", user=user_to_view)
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
 
 

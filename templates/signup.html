@@ -24,7 +24,7 @@
                 </h4>
             </div>
 
-            <form id="signupForm" novalidate>
+            <form id="signupForm" method="POST" action="{{url_for('signup')}}" novalidate>
                 
                 <div class="mb-3"> 
                     <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" required>                  </div>

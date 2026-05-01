@@ -68,11 +68,14 @@
         <!-- Profile Hero -->
         <div class="profile-hero">
             <div class="avatar-container">
-                <div class="avatar" id="avatar" title="Click to change initials"></div>
+                <div class="avatar" id="avatar">
+                    {{user.firstName[0]}} {{user.lastName[0]}}
+                </div>
             </div>
             <div class="profile-hero-info">
-                <h1 id="hero-name">Student</h1>
-                <p id="hero-email">Set up your profile below</p>
+                <!--Use the firstName and lastName from DB model-->
+                <h1 id="hero-name">{{ user.firstName}} {{user.lastName}}</h1>
+                <p id="hero-email">{{user.email}}</p>
                 <div class="joined">
                     <span class="material-symbols-outlined" style="font-size:14px;">calendar_today</span>
                     Joined <span id="hero-joined"></span>
@@ -107,15 +110,15 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" class="form-input" placeholder="Enter first name">
+                    <input type="text" id="firstName" class="form-input" value="{{ user.firstName }}">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" class="form-input" placeholder="Enter last name">
+                    <input type="text" id="lastName" class="form-input" value="{{ user.lastName }}">
                 </div>
                 <div class="form-group">
                     <label for="profileEmail">Email</label>
-                    <input type="email" id="profileEmail" class="form-input" placeholder="you@university.edu">
+                    <input type="email" id="profileEmail" class="form-input" value="{{ user.email }}">
                 </div>
                 <div class="form-group">
                     <label for="studentId">Student ID</label>
@@ -123,7 +126,7 @@
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" class="form-input">
+                    <input type="date" id="dob" class="form-input" value="{{ user.dob.strftime('%Y-%m-%d') }}">
                 </div>
                 <div class="form-group">
                     <label for="university">University</label>

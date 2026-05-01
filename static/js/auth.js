@@ -41,6 +41,7 @@ emailInput.addEventListener('blur', function() {
 
 if (loginForm) {
     loginForm.addEventListener("submit", function(e) {
+        // stops the intial submit to validate the fields first
         e.preventDefault();
         
         // Hide previous error
@@ -49,6 +50,7 @@ if (loginForm) {
         const email = emailInput.value.trim().toLowerCase();
         const password = document.getElementById("password").value;
 
+        // validation checks
         if (!email) {
             errorMessage.textContent = "Email is required";
             errorMessage.classList.remove('d-none');
@@ -75,10 +77,12 @@ if (loginForm) {
 
         // TODO: actual login check here
         // If login fails:
-        errorMessage.textContent = "Wrong password";
-        errorMessage.classList.remove('d-none');
+        //errorMessage.textContent = "Wrong password";
+        //errorMessage.classList.remove('d-none');
+        //console.log("LOGIN: ", {email, password});
 
-        console.log("LOGIN: ", {email, password});
+        console.log("Validation passed. Checking database for:", email);
+        loginForm.submit();
     });
 }
 
@@ -86,6 +90,8 @@ const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
     signupForm.addEventListener("submit", function (e) {
+
+        // 1. stop the form to check validation
         e.preventDefault();
 
         const firstName = document.getElementById("firstName").value.trim();
@@ -126,8 +132,10 @@ if (signupForm) {
             alert("You must be at least 10 years old");
             return;
         }
-
+        
+        // 2. if validation passes: submit the form to the python backend
         console.log("SIGNUP:", { firstName, lastName, dob, email, password });
+        signupForm.submit();
     });
 }
 

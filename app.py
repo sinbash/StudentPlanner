@@ -23,6 +23,7 @@ def home():
     else:
         return redirect(url_for('login'))
 
+
 #If anyone needs to test the index page changes, uncomment the below code and temporarily comment the above home function to bypass login
 #@app.route('/')
 #def home():

@@ -22,20 +22,28 @@ with app.app_context():
 
 
 # 3. The Routes
-@app.route('/')
-def home():
-    if 'user_id' in session:
-        user = User.query.get(session['user_id'])
-        return render_template("index.html", user=user)
-    else:
+#@app.route('/')
+#def home():
+    #if 'user_id' in session:
+        #user = User.query.get(session['user_id'])
+        #return render_template("index.html", user=user)
+    #else:
         # If not logged in, force them to the login page
-        return redirect(url_for('login'))
+        #return redirect(url_for('login'))
 
 
 #If anyone needs to test the index page changes, uncomment the below code and temporarily comment the above home function to bypass login
-#@app.route('/')
-#def home():
-    #return render_template("index.html")
+@app.route('/')
+def home():
+    #For testing: create a fake user object
+    fake_user = {
+        'firstName': 'John',
+        'lastName': 'Doe',
+        'email': 'test@example.com',
+        'id': 1,
+        'dob': '2000-01-01'
+    }
+    return render_template("index.html", user=fake_user)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -129,6 +137,24 @@ def view_profile(username):
     
     # Render a profile page (you can use your existing profile.html or a new one)
     return render_template("profile.html", user=user_to_view)
+
+@app.route('/update_password', methods = ['POST'])
+def update_password():
+    if 'user_id' not in session:
+        return {'success': False, 'error': 'Not logged in'}
+    
+    data = request.get_json()
+    user = User.query.get(session['user_id'])
+
+    # Check if current password is correct
+    if user.password != data['currentPassword']:
+        return {'success': False, 'error': 'Current password is incorrect'}
+    
+    # Update password
+    user.password = data['newPassword']
+    db.session.commit()
+
+    return{'success':True}
 
 if __name__ == "__main__":
     app.run(debug=True)

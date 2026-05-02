@@ -109,20 +109,6 @@
                         </tr>
                     </thead>
                     <tbody id="unit-body">
-                        <tr>
-                            <td><input type="text" class="input-field" placeholder="Unit Code"></td>
-                            <td><input type="date" class="input-field" onchange="calculateCountdown(this)"></td>
-                            <td><input type="text" class="input-field" placeholder="Assignments"></td>
-                            <td style="text-align: center; font-size: 1.1rem;">-</td>
-                            <td>
-                                <select class="status-dropdown status-not-started" onchange="updateStatusColour(this)">
-                                    <option value="not-started">Not started</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </td>
-                            <td><button class="btn-delete" onclick="removeRow(this)">&times;</button></td>
-                        </tr>
                     </tbody>
                 </table>
 
@@ -228,9 +214,10 @@
         
                 <div class="settings-group">
                     <h3>Change Password</h3>
-                    <input type="password" placeholder="Current Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
-                    <input type="password" placeholder="New Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
-                    <input type="password" placeholder="Confirm Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" id="current-password" placeholder="Current Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" id="new-password" placeholder="New Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <input type="password" id="confirm-password" placeholder="Confirm Password" class="input-field" style="padding: 12px 15px; box-sizing: border-box;">
+                    <p id="password-error" style="color: var(--red-button); font-size: 0.9rem; margin: 10px 0 0 0; display: none;"></p>
                 </div>
 
                 <div class="settings-group">

@@ -121,7 +121,11 @@
                 `;
 
                 tableBody.appendChild(row);
-                saveTableData();
+
+                // Only saves row if it isn't a blank default row (to prevent a new row being added every time website is reopened)
+                if (data.unit || data.date || data.assignment) {
+                    saveTableData();
+                }
             }
 
             // 4. Delete Row & Save
@@ -369,6 +373,11 @@
                     .map((row, index) => ({ ...row, index }))
                     .filter(row => row.unit === unitCode);
 
+                // Calculate unit progress
+                const total = filtered.length;
+                const completed = filtered.filter(row => row.status === 'completed').length;
+                const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
                 if (filtered.length === 0) {
                     tbody.innerHTML = "<tr><td colspan='5'>No assignments found</td></tr>";
                     return;
@@ -415,6 +424,10 @@
 
                     tbody.appendChild(tr);
                 });
+                
+                // Update the unit title with progress
+                const unitTitle = document.getElementById("unit-title");
+                unitTitle.innerHTML = `${unitCode} <span style="font-size: 0.8em; color: var(--text-color); font-weight: normal; margin-left: 10px;">(${completed}/${total} assignments completed - ${progressPercent}%)</span>`;
             }
 
             function refreshDashboardTable() {
@@ -574,6 +587,56 @@
 
             //Save user settings between sessions
             function saveSettings() {
+                // Get password inputs
+                const currentPassword = document.getElementById("current-password").value;
+                const newPassword = document.getElementById("new-password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+                const errorMsg = document.getElementById("password-error");
+
+                // Check if user is trying to change password
+                if (newPassword || confirmPassword) {
+                // If trying to change password, current password is required
+                    if (!currentPassword) {
+                        errorMsg.textContent = "Please enter your current password to change it";
+                        errorMsg.style.display = "block";
+                        return;
+                    }
+        
+                    // Check if new passwords match
+                    if (newPassword !== confirmPassword) {
+                        errorMsg.textContent = "New password and confirm password do not match";
+                        errorMsg.style.display = "block";
+                        return;
+                    }
+
+                    // Send to flask to verify current password and udpate
+                    fetch('/update-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            currentPassword: currentPassword,
+                            newPassword: newPassword
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            errorMsg.style.display = "none";
+                            // Clear password fields after successful change
+                            document.getElementById("current-password").value = "";
+                            document.getElementById("new-password").value = "";
+                            document.getElementById("confirm-password").value = "";
+                            alert("Password changed successfully!");
+                        } else {
+                            errorMsg.textContent = data.error || "Current password is incorrect";
+                            errorMsg.style.display = "block";
+                        }
+                    });
+                    return;
+                }
+
                 const data = {
                     name: document.getElementById("user-name").value,
                     email: document.getElementById("user-email").value,
@@ -582,4 +645,5 @@
                 };
 
                 localStorage.setItem("userSettings", JSON.stringify(data));
+                alert("Settings saved successfully");
             }

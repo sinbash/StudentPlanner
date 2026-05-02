@@ -85,7 +85,7 @@
                     <h4>Login</h4>
                 </div>
 
-                <form id="loginForm" novalidate method="POST" action="{{ url_for('login') }}">
+                <form id="loginForm" novalidate method="POST" action="{{ url_for('main.login') }}">
                     <!-- Email input field -->
                     <div class="mb-3"> 
                         <label class="form-label"></label>
@@ -104,8 +104,8 @@
                     
                     <!-- Navigation links for account actions -->
                     <div class="text-center">
-                        <a href="{{ url_for('signup') }}" class="me-3">Sign Up</a>
-                        <a href="{{ url_for('reset') }}" class="me-3" >Forgot password</a>
+                        <a href="{{ url_for('main.signup') }}" class="me-3">Sign Up</a>
+                        <a href="{{ url_for('main.reset') }}" class="me-3" >Forgot password</a>
                     </div>
                 </form>
             </div>

@@ -14,36 +14,101 @@
 </head>
 
 <body>
-    <div class="container d-flex justify-content-center align-items-center min-vh-100 "> 
-        <div class="p-4 shadow rounded custom-bg" style="width: 350px;"> 
-
-            <div class="text-center mb-3">
-                <h4>Login</h4>
-            </div>
-
-            <form id="loginForm" novalidate method="POST" action="{{ url_for('login') }}">
-                <!-- Email input field -->
-                <div class="mb-3"> 
-                    <label class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="username or email" required>
-                </div>
-                <!-- Password input field -->
-                <div class="mb-3 d-none" id="passwordSection">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="password"  name="password" class="form-control" placeholder="password" required>
-                </div>
-                <div id="errorMessage" class="text-danger text-center mb-3 d-none"></div>
-                <!-- Submit button   -->
-                <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
+    <!-- NEW: The Wrapper that splits the screen -->
+    <div class="auth-wrapper">
+        <div class="auth-billboard d-none d-lg-flex">
+            <div class="billboard-content">
+                <h1 class="display-3 fw-bold mb-3">Student Planner</h1>
+                <p class="lead mb-5">Master your semester with the ultimate all-in-one student toolkit.</p>
                 
-                <!-- Navigation links for account actions -->
-                <div class="text-center">
-                    <a href="{{ url_for('signup') }}" class="me-3">Sign Up</a>
-                    <a href="{{ url_for('reset') }}" class="me-3" >Forgot password</a>
+                <div class="ad-features">
+                    <!-- Row 1 -->
+                    <div class="ad-item">
+                        <span class="ad-icon">📅</span>
+                        <div>
+                            <h5 class="fw-bold">Assignments Tracker</h5>
+                            <p>Keep a clear view of all upcoming deadlines.</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="ad-item">
+                        <span class="ad-icon">⏳</span>
+                        <div>
+                            <h5 class="fw-bold">Semester Progress Tracker</h5>
+                            <p>Live progress bar for your entire semester.</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="ad-item">
+                        <span class="ad-icon">📈</span>
+                        <div>
+                            <h5 class="fw-bold">Grades Tracker</h5>
+                            <p>Log marks and track your performance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 4 -->
+                    <div class="ad-item">
+                        <span class="ad-icon">🔍</span>
+                        <div>
+                            <h5 class="fw-bold">Social Discovery</h5>
+                            <p>Find and connect with students in your units.</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 5 -->
+                    <div class="ad-item">
+                        <span class="ad-icon">🌗</span>
+                        <div>
+                            <h5 class="fw-bold">Dark Mode</h5>
+                            <p>Adaptive themes for comfortable late-night study.</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 6 -->
+                    <div class="ad-item">
+                        <span class="ad-icon">📝</span>
+                        <div>
+                            <h5 class="fw-bold">Personal To-Do Lists</h5>
+                            <p>Manage daily life alongside your studies.</p>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center align-items-center min-vh-100 "> 
+            <div class="p-4 shadow rounded custom-bg" style="width: 350px;"> 
+
+                <div class="text-center mb-3">
+                    <h4>Login</h4>
+                </div>
+
+                <form id="loginForm" novalidate method="POST" action="{{ url_for('login') }}">
+                    <!-- Email input field -->
+                    <div class="mb-3"> 
+                        <label class="form-label"></label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="username or email" required>
+                    </div>
+                    <!-- Password input field -->
+                    <div class="mb-3 d-none" id="passwordSection">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="password"  name="password" class="form-control" placeholder="password" required>
+                    </div>
+                    <div id="errorMessage" class="text-danger text-center mb-3 d-none"></div>
+                    <!-- Submit button   -->
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                    
+                    <!-- Navigation links for account actions -->
+                    <div class="text-center">
+                        <a href="{{ url_for('signup') }}" class="me-3">Sign Up</a>
+                        <a href="{{ url_for('reset') }}" class="me-3" >Forgot password</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <p class="text-center text-muted position-absolute bottom-0 w-100 mb-3">

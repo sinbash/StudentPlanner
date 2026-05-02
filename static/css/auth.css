@@ -67,3 +67,50 @@ a:active {
   background-color: transparent;
   text-decoration: underline;
 }
+
+/* This is for aesthetic reasons for the login page make it look more impactful */
+/* Add this to create the split screen */
+.auth-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* This styles the new Ad side */
+.auth-billboard {
+    flex: 1.3;
+    background: linear-gradient(135deg, #005fe3 0%, #1e428b 100%);
+    color: white;
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* This ensures your initial container takes up the remaining space */
+.auth-wrapper .container {
+    flex: 1.2;
+    background-color: #f8fafc; 
+    margin: 0; /* Override default Bootstrap centering margins */
+    max-width: none;
+}
+
+.billboard-content {
+    max-width: 850px; 
+    width: 100%;
+}
+
+.ad-item {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.ad-icon {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+

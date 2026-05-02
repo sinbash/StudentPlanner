@@ -7,29 +7,28 @@ from datetime import datetime
 main = Blueprint('main', __name__)
 
 
-# 3. The Routes
-@main.route('/')
-def home():
-    if 'user_id' in session:
-        user = User.query.get(session['user_id'])
-        return render_template("index.html", user=user)
-    else:
-        #If not logged in, force them to the login page
-        return redirect(url_for('main.login'))
+
+# @main.route('/')
+# def home():
+#     if 'user_id' in session:
+#         user = User.query.get(session['user_id'])
+#         return render_template("index.html", user=user)
+#     else:
+#         #If not logged in, force them to the login page
+#         return redirect(url_for('main.login'))
 
 
 #If anyone needs to test the index page changes, uncomment the below code and temporarily comment the above home function to bypass login
-#@main.route('/')
-#def home():
-    #For testing: create a fake user object
-    #fake_user = {
-        #'firstName': 'John',
-        #'lastName': 'Doe',
-        #'email': 'test@example.com',
-        #'id': 1,
-        #'dob': '2000-01-01'
-    #}
-    #return render_template("index.html", user=fake_user)
+@main.route('/')
+def home():
+    fake_user = {
+        'firstName': 'John',
+        'lastName': 'Doe',
+        'email': 'test@example.com',
+        'id': 1,
+        'dob': '2000-01-01'
+    }
+    return render_template("index.html", user=fake_user)
 
 @main.route("/login", methods=['GET', 'POST'])
 def login():

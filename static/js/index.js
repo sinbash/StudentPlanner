@@ -108,7 +108,7 @@
                 row.innerHTML = `
                     <td><input type="text" class="input-field" placeholder="Unit Code" value="${data.unit}" oninput="saveTableData()"></td>
                     <td><input type="date" class="input-field" value="${data.date}" onchange="calculateCountdown(this); saveTableData()"></td>
-                    <td><input type="text" class="input-field" placeholder="Assignments" value="${data.assignment}" oninput="saveTableData()"></td>
+                    <td><input type="text" class="input-field" placeholder="Assignments" value="${data.assignment}" onchange="saveTableData()"></td>
                     <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>
                     <td>
                         <select class="status-dropdown status-${data.status}" onchange="updateStatusColour(this)">
@@ -273,18 +273,6 @@
 
                 tableBody.appendChild(row);
                 saveUnitsData();
-
-                const deadlines = JSON.parse(localStorage.getItem('deadlineData')) || [];
-
-                if (data.unit) {
-                    deadlines.push({
-                        unit: data.unit,
-                        date: '',
-                        assignment: '',
-                        status: 'not-started'
-                    });
-                    localStorage.setItem('deadlineData', JSON.stringify(deadlines));
-                }
             }
 
             function removeUnitRow(button) {
@@ -405,7 +393,7 @@
 
                         <td>
                             <input type="text" class="input-field" value="${row.assignment}"
-                            oninput="updateFiltered(${row.index}, 'assignment', this.value)">
+                            onchange="updateFiltered(${row.index}, 'assignment', this.value)">
                         </td>
 
                         <td style="text-align: center; font-size: 1.1rem;">${countdown}</td>

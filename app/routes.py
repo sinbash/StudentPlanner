@@ -8,27 +8,28 @@ main = Blueprint('main', __name__)
 
 
 
-# @main.route('/')
-# def home():
-#     if 'user_id' in session:
-#         user = User.query.get(session['user_id'])
-#         return render_template("index.html", user=user)
-#     else:
-#         #If not logged in, force them to the login page
-#         return redirect(url_for('main.login'))
-
-
-#If anyone needs to test the index page changes, uncomment the below code and temporarily comment the above home function to bypass login
 @main.route('/')
 def home():
-    fake_user = {
-        'firstName': 'John',
-        'lastName': 'Doe',
-        'email': 'test@example.com',
-        'id': 1,
-        'dob': '2000-01-01'
-    }
-    return render_template("index.html", user=fake_user)
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        return render_template("index.html", user=user)
+    else:
+        #If not logged in, force them to the login page
+        return redirect(url_for('main.login'))
+
+
+
+# #If anyone needs to test the index page changes, uncomment the below code and temporarily comment the above home function to bypass login
+# @main.route('/')
+# def home():
+#     fake_user = {
+#         'firstName': 'John',
+#         'lastName': 'Doe',
+#         'email': 'test@example.com',
+#         'id': 1,
+#         'dob': '2000-01-01'
+#     }
+#     return render_template("index.html", user=fake_user)
 
 @main.route("/login", methods=['GET', 'POST'])
 def login():
@@ -95,6 +96,14 @@ def logout():
     flash("You have been logged out successfully")
     return redirect(url_for('main.login'))
 
+@main.route("/profile/<username>")
+def view_profile(username):
+    # Fetch the specific user from the database by their username
+    user_to_view = User.query.filter_by(username=username).first_or_404()
+    
+    # Render a profile page (you can use your existing profile.html or a new one)
+    return render_template("profile.html", user=user_to_view)
+
 @main.route("/profile")
 def profile():
     if 'user_id' not in session:
@@ -121,13 +130,6 @@ def search_users():
     
     return render_template("findUser.html", users=results, query=query)
 
-@main.route("/profile/<username>")
-def view_profile(username):
-    # Fetch the specific user from the database by their username
-    user_to_view = User.query.filter_by(username=username).first_or_404()
-    
-    # Render a profile page (you can use your existing profile.html or a new one)
-    return render_template("profile.html", user=user_to_view)
 
 @main.route('/update_password', methods = ['POST'])
 def update_password():

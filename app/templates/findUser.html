@@ -85,7 +85,7 @@
                             <div class="user-info">
                                 <span class="username">@{{ user.username }}</span>
                             </div>
-                            <a href="{{ url_for('view_profile', username=user.username) }}" class="profile-link">View Profile</a>
+                            <a href="{{ url_for('main.view_profile', username=user.username) }}" class="profile-link">View Profile</a>
                         </div>
                     {% endfor %}
                 {% elif query %}
@@ -99,22 +99,24 @@
     <script src="{{ url_for('static', filename='js/findUser.js') }}"></script>
 </body>
 
+<!--
+These are irrelevent
 <tbody>
     {% for user in users %}
     <tr>
         <td style="padding-left: 20px;">
-            <!-- Passing the specific username to the URL -->
-            <a href="{{ url_for('view_profile', username=user.username) }}" 
+             Passing the specific username to the URL 
+            <a href="{{ url_for('main.view_profile', username=user.username) }}" 
                style="color: var(--text-color); text-decoration: none; font-weight: bold;">
                 @{{ user.username }}
             </a>
         </td>
         <td style="text-align: center;">
-            <a href="{{ url_for('view_profile', username=user.username) }}" class="btn-save" style="text-decoration: none;">
+            <a href="{{ url_for('main.view_profile', username=user.username) }}" class="btn-save" style="text-decoration: none;">
                 View Profile
             </a>
         </td>
     </tr>
     {% endfor %}
-</tbody>
+</tbody> -->
 </html>

@@ -24,14 +24,14 @@
                 </h4>
             </div>
 
-            <form id="signupForm" method="POST" action="{{url_for('signup')}}" novalidate>
+            <form id="signupForm" method="POST" action="{{url_for('main.signup')}}" novalidate>
                 
                 <div class="mb-3"> 
                     <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" required>                  </div>
                 <div class="mb-3"> 
                     <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" required>                   </div>
                 <div class="mb-3"> 
-                    <input type="text" id="username" name="usernmae" class="form-control" placeholder="Username" required>                   </div>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>                   </div>
                 <div class="mb-3">
                     <input type="date" name="dob" class="form-control" placeholder="dob" required>      </div>
                 <!-- Email input field -->
